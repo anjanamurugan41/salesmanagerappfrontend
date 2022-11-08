@@ -41,6 +41,7 @@ dependencies:
   path_provider: ^2.0.2
   badges: ^2.0.1
   flutter_calendar_carousel: ^2.0.3
+  stacked_notification_cards: ^0.1.0-dev.2
 
 dev_dependencies:
   flutter_test:

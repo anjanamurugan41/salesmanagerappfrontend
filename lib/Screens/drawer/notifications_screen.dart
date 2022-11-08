@@ -111,8 +111,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               break;
                             case Status.COMPLETED:
                               AllTaskResponse response = snapshot.data.data;
+                              print("response->${response}");
                               return _buildUserWidget(_allTasksBloc.tasksList,
-                                  response.pagination?.totalItemsCount);
+                                  response.pagination?.totalItemsCount,response.pagination.task_creater);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -165,7 +166,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     }
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount) {
+  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount, String taskcreater) {
     if (tasksList != null) {
       if (tasksList.length > 0) {
         return ListView.builder(
@@ -175,8 +176,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             controller: _tasksController,
             itemBuilder: (context, index) {
               TaskItem taskItemToPass = tasksList[index];
+
               return NotificationListItem(
                 taskItem: taskItemToPass,
+                taskcreater: taskcreater,
+
                 onTap: ()  {
                   // viewTaskDetail(taskItemToPass);
                 },

@@ -1,94 +1,95 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Models/TaskItem.dart';
+import 'package:stacked_notification_cards/stacked_notification_cards.dart';
 
 import 'app_card.dart';
 
 class NotificationListItem extends StatelessWidget {
   final VoidCallback onTap;
-  final TaskItem taskItem;
+  final  taskItem;
+  String taskcreater;
+  int itemcount;
 
-  const NotificationListItem({Key key, @required this.onTap, @required this.taskItem})
+   NotificationListItem({Key key, @required this.onTap, @required this.taskItem,@required this.taskcreater,this.itemcount})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 12, 12, 12),
-        child: IntrinsicHeight(
-          child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 10,),
-                Icon(Icons.notifications_none_rounded),
-                SizedBox(width: 10,),
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Text(
-                      //   '${taskItem.title}',
-                      //   style: TextStyle(
-                      //       fontSize: 14,
-                      //       color: Colors.black,
-                      //       fontFamily: 'Montserrat',
-                      //       fontWeight: FontWeight.w600),
-                      // ),
-                      SizedBox(height: 6),
-                      Text(
-                        'Assigned a task',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black45,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500),
-                      ),
+    final format = DateFormat("dd-MM-yyyy");
 
-                      // Row(
-                      //   children: [
-                      //     Icon(
-                      //       CupertinoIcons.calendar,
-                      //       color: Colors.black45,
-                      //     ),
-                      //     SizedBox(width: 4),
-                      //     Text(
-                      //       '${taskItem.date}',
-                      //       style: TextStyle(
-                      //           fontSize: 14,
-                      //           color: Colors.black54,
-                      //           fontFamily: 'Montserrat',
-                      //           fontWeight: FontWeight.w600),
-                      //     ),
-                      //     SizedBox(width: 18),
-                      //     Icon(
-                      //       CupertinoIcons.time,
-                      //       color: Colors.black45,
-                      //     ),
-                      //     SizedBox(width: 4),
-                      //     Text(
-                      //       '${taskItem.time}',
-                      //       style: TextStyle(
-                      //           fontSize: 14,
-                      //           color: Colors.black54,
-                      //           fontFamily: 'Montserrat',
-                      //           fontWeight: FontWeight.w600),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  ),
-                ),
-              ]),
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    DateTime gettingDate = format.parse( taskItem.date);
+    final String formatted = formatter.format(gettingDate);
+    print("formatted-<>>>>>>>${gettingDate}");
+    List<NotificationCard> _listOfNotification = [
+      NotificationCard(
+        date:gettingDate ,
+        leading: Icon(
+          Icons.account_circle,
+          size: 48,
         ),
+        title: '${taskItem.title}',
+        subtitle: '${taskcreater} Assigned Task',
       ),
-      onTap: onTap,
+
+    ];
+    return  Column(
+      children: [
+        StackedNotificationCards(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 2.0,
+            )
+          ],
+          notificationCardTitle: 'Message',
+          notificationCards: [..._listOfNotification],
+          cardColor: Color(0xFFF1F1F1),
+          padding: 16,
+          actionTitle: Text(
+            '',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          showLessAction: Text(
+            'Show less',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.deepPurple,
+            ),
+          ),
+          onTapClearAll: () {
+
+              _listOfNotification.clear();
+
+          },
+          clearAllNotificationsAction: Icon(Icons.close),
+          clearAllStacked: Text('Clear All'),
+          cardClearButton: Text('clear'),
+          cardViewButton: Text('view'),
+          onTapClearCallback: (index) {
+            print(index);
+
+              _listOfNotification.removeAt(index);
+
+          },
+          onTapViewCallback: (index) {
+            print(index);
+          },
+
+        ),
+      ],
     );
+
   }
+
 
   String getIcon(TaskItem taskItem) {
     if (taskItem.status == 0) {
@@ -102,3 +103,4 @@ class NotificationListItem extends StatelessWidget {
     }
   }
 }
+

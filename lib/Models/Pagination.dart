@@ -4,13 +4,15 @@ class Pagination {
   bool hasNextPage;
   int totalPages;
   int totalItemsCount;
+  String task_creater;
 
   Pagination(
       {this.page,
       this.perPage,
       this.hasNextPage,
       this.totalPages,
-      this.totalItemsCount});
+      this.totalItemsCount,
+      this.task_creater});
 
   Pagination.fromJson(Map<String, dynamic> json) {
     dynamic pagenumber = json['page'];
@@ -46,6 +48,13 @@ class Pagination {
     } else {
       totalPages = int.parse(json['totalPages']);
     }
+    dynamic taskcreater = json['task_creater'];
+    print(taskcreater.runtimeType);
+    if (taskcreater is String) {
+      task_creater = json['task_creater'];
+    } else {
+      task_creater = json["task_creater"];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +64,7 @@ class Pagination {
     data['hasNextPage'] = this.hasNextPage;
     data['totalPages'] = this.totalPages;
     data['totalItem'] = this.totalItemsCount;
+    data['task_creater'] = this.task_creater;
     return data;
   }
 }

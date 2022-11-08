@@ -39,6 +39,8 @@ class NotificationListItem extends StatelessWidget {
     ];
     return  Column(
       children: [
+
+
         StackedNotificationCards(
           boxShadow: [
             BoxShadow(

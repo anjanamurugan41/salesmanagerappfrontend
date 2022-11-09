@@ -23,5 +23,5 @@ class RemoteConfig {
   static const changeSalesPerson = "reassign";
   static const deleteTask = "delete";
   static const getMonthWiseReport = "monthsearch";
-  static const getNotifications = "getNotifications";
+  static const getNotifications = "get/task/creators";
 }

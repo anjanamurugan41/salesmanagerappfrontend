@@ -8,6 +8,7 @@ import 'package:sales_manager_app/Constants/CommonWidgets.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/EnumValues.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/RoundedLoader.dart';
+import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/Screens/drawer/profile/CalendarPage2.dart';
 import 'package:sales_manager_app/Screens/home/home_screen.dart';
 import 'package:sales_manager_app/Utilities/LoginModel.dart';
@@ -235,7 +236,7 @@ class DrawerScreen extends StatelessWidget {
           if (type == 1) {
             //Notification
             // Fluttertoast.showToast(msg: "Work in progress");
-            Get.off(() => NotificationsScreen());
+            Get.off(() => NotificationsScreen(user_id:59 ,));
           } else if (type == 2) {
             //Calender
             Get.off(() => CalendarScreen());

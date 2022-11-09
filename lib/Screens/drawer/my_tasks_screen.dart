@@ -110,6 +110,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> with LoadMoreListener {
                               break;
                             case Status.COMPLETED:
                               AllTaskResponse response = snapshot.data.data;
+                              print("resp=>$response");
                               return _buildUserWidget(_allTasksBloc.tasksList,
                                   response.pagination?.totalItemsCount);
                               break;

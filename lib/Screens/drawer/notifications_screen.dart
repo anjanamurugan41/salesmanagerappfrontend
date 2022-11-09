@@ -14,15 +14,17 @@ import 'package:sales_manager_app/Interfaces/LoadMoreListener.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
 import 'package:sales_manager_app/Models/NotificationResponse.dart';
 import 'package:sales_manager_app/Models/TaskItem.dart';
+import 'package:sales_manager_app/Screens/task_details_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/widgets/notification_list_item.dart';
-import 'package:sales_manager_app/widgets/task_list_item.dart';
+
 
 class NotificationsScreen extends StatefulWidget {
-  String taskStatusToList;
-  final TaskItem taskItem;
+  // String taskStatusToList;
+  // final TaskItem taskItem;
+  int user_id;
 
-  NotificationsScreen({Key key, this.taskItem}) : super(key: key);
+  NotificationsScreen({Key key,this.user_id}) : super(key: key);
   @override
   _NotificationsScreenState createState() => _NotificationsScreenState();
 }
@@ -30,44 +32,44 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen>
     with LoadMoreListener {
   bool isLoadingMore = false;
-  AllTasksBloc _allTasksBloc;
-  ScrollController _tasksController;
+  NotificationBloc _allNotificationsBloc;
+  ScrollController _notificationsController;
 
   @override
   void initState() {
     super.initState();
-    _tasksController = ScrollController();
-    _tasksController.addListener(_scrollListener);
-    _allTasksBloc = AllTasksBloc(this);
-    _allTasksBloc.getAllTasksList(false, widget.taskStatusToList, null);
+    _notificationsController = ScrollController();
+    _notificationsController.addListener(_scrollListener);
+    _allNotificationsBloc = NotificationBloc();
+    _allNotificationsBloc.getNotification();
   }
 
   @override
   void dispose() {
-    _tasksController.dispose();
-    _allTasksBloc.dispose();
+    _notificationsController.dispose();
+    // _allNotificationsBloc.getNotification(user_id);
     super.dispose();
   }
 
   void _scrollListener() {
-    if (_tasksController.offset >= _tasksController.position.maxScrollExtent &&
-        !_tasksController.position.outOfRange) {
+    if (_notificationsController.offset >= _notificationsController.position.maxScrollExtent &&
+        !_notificationsController.position.outOfRange) {
       print("reach the bottom");
-      if (_allTasksBloc.hasNextPage) {
+      if (_allNotificationsBloc.nameslist.isEmpty) {
         Future.delayed(const Duration(milliseconds: 1000), () {
-          _allTasksBloc.getAllTasksList(true, widget.taskStatusToList, null);
+          _allNotificationsBloc.getNotification();
         });
       }
     }
-    if (_tasksController.offset <= _tasksController.position.minScrollExtent &&
-        !_tasksController.position.outOfRange) {
+    if (_notificationsController.offset <= _notificationsController.position.minScrollExtent &&
+        !_notificationsController.position.outOfRange) {
       print("reach the top");
     }
   }
 
   void _errorWidgetFunction() {
-    if (_allTasksBloc != null) {
-      _allTasksBloc.getAllTasksList(false, widget.taskStatusToList, null);
+    if (_allNotificationsBloc != null) {
+      _allNotificationsBloc.getNotification();
     }
   }
 
@@ -99,10 +101,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   color: Colors.white,
                   backgroundColor: Colors.cyan,
                   onRefresh: () {
-                    return _allTasksBloc.getAllTasksList(false, widget.taskStatusToList, null);
+                    return _allNotificationsBloc.getNotification();
                   },
-                  child: StreamBuilder<ApiResponse<AllTaskResponse>>(
-                      stream: _allTasksBloc.tasksStream,
+                  child: StreamBuilder<ApiResponse<NotificationResponse>>(
+                      stream: _allNotificationsBloc.notificationStream,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           switch (snapshot.data.status) {
@@ -110,10 +112,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               return CommonApiLoader();
                               break;
                             case Status.COMPLETED:
-                              AllTaskResponse response = snapshot.data.data;
+                              NotificationResponse response = snapshot.data.data;
                               print("response->${response}");
-                              return _buildUserWidget(_allTasksBloc.tasksList,
-                                  response.pagination?.totalItemsCount,response.pagination.task_creater);
+                              return _buildUserWidget(_allNotificationsBloc.nameslist);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -124,7 +125,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         }
                         return Container(
                           child: Center(
-                            child: Text(""),
+                            child: Container(color: Colors.red,),
                           ),
                         );
                       }),
@@ -166,23 +167,21 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     }
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount, String taskcreater) {
-    if (tasksList != null) {
-      if (tasksList.length > 0) {
+  Widget _buildUserWidget(List<UserName> namelist) {
+    print("namelist->>>>>>>>${namelist[0].name}");
+
+      if (namelist.length > 0) {
         return ListView.builder(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
-            itemCount: tasksList.length,
-            controller: _tasksController,
+            itemCount: namelist.length,
+            controller: _notificationsController,
             itemBuilder: (context, index) {
-              TaskItem taskItemToPass = tasksList[index];
 
               return NotificationListItem(
-                taskItem: taskItemToPass,
-                taskcreater: taskcreater,
-
+                names: namelist[index].name,
                 onTap: ()  {
-                  // viewTaskDetail(taskItemToPass);
+                   // viewTaskNotDetail(taskItemToPass);
                 },
               );
             });
@@ -194,10 +193,20 @@ class _NotificationsScreenState extends State<NotificationsScreen>
               textColorReceived: Colors.black),
         );
       }
-    } else {
-      return CommonApiErrorWidget("No results found", _errorWidgetFunction,
-          textColorReceived: Colors.black);
-    }
+
   }
 
+  // void viewTaskNotDetail(TaskItem taskItemToPass) async{
+  //   Map<String, dynamic> data = await Get.to(() =>
+  //       TaskDetailsScreen(taskId: taskItemToPass.taskid));
+  //   if (data != null && mounted) {
+  //     if (data.containsKey("refreshList")) {
+  //       if (data["refreshList"]) {
+  //         if (_allNotificationsBloc != null) {
+  //           _allNotificationsBloc.getNotification(widget.user_id);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

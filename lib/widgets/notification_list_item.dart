@@ -10,37 +10,30 @@ import 'app_card.dart';
 
 class NotificationListItem extends StatelessWidget {
   final VoidCallback onTap;
-  final  taskItem;
-  String taskcreater;
-  int itemcount;
+  final names;
 
-   NotificationListItem({Key key, @required this.onTap, @required this.taskItem,@required this.taskcreater,this.itemcount})
+
+  NotificationListItem({Key key, @required this.onTap, @required this.names})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final format = DateFormat("dd-MM-yyyy");
-
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    DateTime gettingDate = format.parse( taskItem.date);
-    final String formatted = formatter.format(gettingDate);
-    print("formatted-<>>>>>>>${gettingDate}");
+
     List<NotificationCard> _listOfNotification = [
       NotificationCard(
-        date:gettingDate ,
+        date: DateTime.now(),
         leading: Icon(
           Icons.account_circle,
           size: 48,
         ),
-        title: '${taskItem.title}',
-        subtitle: '${taskcreater} Assigned Task',
+        title: 'Task',
+        subtitle: '$names Assigned Task',
       ),
-
     ];
-    return  Column(
+    return Column(
       children: [
-
-
         StackedNotificationCards(
           boxShadow: [
             BoxShadow(
@@ -50,12 +43,11 @@ class NotificationListItem extends StatelessWidget {
           ],
           notificationCardTitle: 'Message',
           notificationCards: [..._listOfNotification],
-          cardColor: Color(0xFFF1F1F1),
-          padding: 16,
-          actionTitle: Text(
-            '',
+          cardColor: Colors.grey[300],
+          padding: 8,
+          actionTitle: Text('',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -68,9 +60,7 @@ class NotificationListItem extends StatelessWidget {
             ),
           ),
           onTapClearAll: () {
-
-              _listOfNotification.clear();
-
+            _listOfNotification.clear();
           },
           clearAllNotificationsAction: Icon(Icons.close),
           clearAllStacked: Text('Clear All'),
@@ -78,31 +68,15 @@ class NotificationListItem extends StatelessWidget {
           cardViewButton: Text('view'),
           onTapClearCallback: (index) {
             print(index);
-
-              _listOfNotification.removeAt(index);
-
+            _listOfNotification.removeAt(index);
           },
           onTapViewCallback: (index) {
             print(index);
           },
-
         ),
       ],
     );
-
   }
 
-
-  String getIcon(TaskItem taskItem) {
-    if (taskItem.status == 0) {
-      return 'assets/images/ic_complete.png';
-    } else if (taskItem.status == 1) {
-      return 'assets/images/ic_pending.png';
-    } else if (taskItem.status == 2) {
-      return 'assets/images/ic_reject.png';
-    } else {
-      return 'assets/images/ic_pending.png';
-    }
-  }
 }
 

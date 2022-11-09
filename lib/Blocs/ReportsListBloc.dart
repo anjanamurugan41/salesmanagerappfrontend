@@ -33,6 +33,7 @@ class ReportsListBloc {
 
   getReportsList(bool isPagination, String fromDate, String toDate,
       String status, int salesMan) async {
+    print("list->.${tasksList}");
     if (isPagination) {
       _listener.refresh(true);
     } else {

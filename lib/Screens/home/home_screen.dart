@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/StringConstants.dart';
+import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/app_icon.dart';
 
@@ -14,18 +15,23 @@ import 'search_screen.dart';
 import 'DashboardFragment.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key key, this.id}) : super(key: key);
+  final int id;
+
+
+
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String authToken;
   int _currentTabIndex = 0;
   DateTime currentBackPressTime;
-
   @override
   Widget build(BuildContext context) {
+    print(widget.id);
     return WillPopScope(
       onWillPop: onWillPop,
       child: SafeArea(
@@ -39,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     AppIcon(
                         iconData: CupertinoIcons.square_grid_2x2,
                         onTap: () {
-                          Get.to(() => DrawerScreen(),
+                          Get.to(() => DrawerScreen(
+                            id : widget.id,
+                          ),
                               transition: Transition.fadeIn);
                         }),
                     Expanded(

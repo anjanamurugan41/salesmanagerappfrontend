@@ -23,10 +23,12 @@ import 'reports_screen.dart';
 import 'sales_person_list_screen.dart';
 
 class DrawerScreen extends StatelessWidget {
-  const DrawerScreen({Key key}) : super(key: key);
+   DrawerScreen({Key key,this.id,}) : super(key: key);
+  final int id;
 
   @override
   Widget build(BuildContext context) {
+    print("Userid.....$id");
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -150,7 +152,7 @@ class DrawerScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       drawerItem(context, 1, "Notifications",
-                          AssetImage('assets/images/ic_nav_notification.png')),
+                          AssetImage('assets/images/ic_nav_notification.png'),),
                       drawerItem(context, 2, "Calendar",
                           AssetImage('assets/images/ic_nav_calender.png')),
                       drawerItem(context, 3, "Reports",
@@ -188,6 +190,7 @@ class DrawerScreen extends StatelessWidget {
 
   Widget drawerItem(
       BuildContext context, var type, var title, var assetsImage) {
+
     return Container(
       padding: EdgeInsets.fromLTRB(15, 25, 15, 0),
       child: InkWell(
@@ -236,7 +239,7 @@ class DrawerScreen extends StatelessWidget {
           if (type == 1) {
             //Notification
             // Fluttertoast.showToast(msg: "Work in progress");
-            Get.off(() => NotificationsScreen(user_id:59 ,));
+            Get.off(() => NotificationsScreen(user_id: id,));
           } else if (type == 2) {
             //Calender
             Get.off(() => CalendarScreen());

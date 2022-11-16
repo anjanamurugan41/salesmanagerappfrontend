@@ -159,18 +159,27 @@ class NotificationResponse {
 
 class UserName {
     String name;
+    String image;
+    String title;
+    String time;
 
-    UserName({this.name});
+    UserName({this.name,this.title,this.image,this.time});
 
     factory UserName.fromJson(Map<String, dynamic> json) {
         return UserName(
             name: json['name'],
+            image: json['image'],
+            title: json['title'],
+            time: json['time']
         );
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
         data['name'] = this.name;
+        data['title']=this.title;
+        data['image']=this.image;
+        data['time']=this.time;
         return data;
     }
 }

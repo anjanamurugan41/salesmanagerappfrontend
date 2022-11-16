@@ -107,11 +107,11 @@ class NotificationBloc{
 
 
 
-  getNotification() async {
+  getNotification(int id) async {
     print("list->.${nameslist}");
     notificationSink.add(ApiResponse.loading('Fetching Notification'));
     try {
-      NotificationResponse _notificationresponse = await _repostiory.getNotifications();
+      NotificationResponse _notificationresponse = await _repostiory.getNotifications(id);
       if(_notificationresponse.success){
       if (nameslist.length == 0) {
         nameslist = _notificationresponse.userNames;

@@ -11,6 +11,7 @@ import 'package:sales_manager_app/Constants/StringConstants.dart';
 import 'package:sales_manager_app/Elements/CommonButton.dart';
 import 'package:sales_manager_app/Elements/CommonTextFormField.dart';
 import 'package:sales_manager_app/Models/LoginResponse.dart';
+import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/Screens/AuthorisationScreens/ForgotPasswordScreen.dart';
 import 'package:sales_manager_app/Screens/AuthorisationScreens/RegisterScreen.dart';
 import 'package:sales_manager_app/Screens/home/home_screen.dart';
@@ -18,6 +19,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/PreferenceUtils.dart';
 
 class LoginScreen extends StatefulWidget {
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -27,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _userName;
   String _password;
+  int _id;
   bool _obscurePasswordText = true;
   CommonInfoBloc _commonInfoBloc;
 
@@ -224,6 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var resBody = {};
     resBody["email"] = _userName;
     resBody["password"] = _password;
+    resBody["id"]=_id;
     _commonInfoBloc.userLogin(json.encode(resBody)).then((value) {
       Get.back();
       LoginResponse loginResponse = value;
@@ -235,7 +239,6 @@ class _LoginScreenState extends State<LoginScreen> {
         PreferenceUtils.setBoolToSF(PreferenceUtils.prefIsLoggedIn, true);
         PreferenceUtils.setObjectToSF(
             PreferenceUtils.prefUserDetails, loginResponse.userInfo);
-
         Get.offAll(() => HomeScreen());
       } else {
         Fluttertoast.showToast(

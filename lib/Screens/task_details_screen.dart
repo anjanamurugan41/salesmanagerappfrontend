@@ -1,4 +1,4 @@
-import 'dart:collection';
+ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';

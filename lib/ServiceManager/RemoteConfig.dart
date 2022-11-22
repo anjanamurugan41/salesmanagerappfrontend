@@ -1,5 +1,6 @@
 class RemoteConfig {
-  static const baseUrl = "https://www.cocoalabs.in/salesapp/api/";
+  //"https://www.cocoalabs.in/salesapp/api/"
+  static const baseUrl = "https://wonderofnation.com/salesapp/api/";
   static const loginUser = "login";
   static const registerUser = "signup";
   static const sendOtp = "forgotPassword";
@@ -24,4 +25,5 @@ class RemoteConfig {
   static const deleteTask = "delete";
   static const getMonthWiseReport = "monthsearch";
   static const getNotifications = "getNotifications";
+  static const notification = "get/task/creators";
 }

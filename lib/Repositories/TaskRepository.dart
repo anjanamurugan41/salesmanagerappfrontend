@@ -97,4 +97,12 @@ class TaskRepository {
         "&salesman=$salesPerson");
     return AllTaskResponse.fromJson(response.data);
   }
+
+  Future<CommonSuccessResponse> notification(String body) async {
+    final response = await apiProvider
+        .getInstance()
+        .post(RemoteConfig.baseUrl + RemoteConfig.notification, data: {"user_id":59});
+    return CommonSuccessResponse.fromJson(response.data);
+  }
+
 }

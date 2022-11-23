@@ -232,12 +232,14 @@ class _LoginScreenState extends State<LoginScreen> {
       if (loginResponse.success) {
         LoginModel().authToken = loginResponse.accessToken;
         LoginModel().userDetails = loginResponse.userInfo;
+        int id= LoginModel(). userDetails.id;
+        print("----------->IDDDD{$id}");
         PreferenceUtils.setStringToSF(
             PreferenceUtils.prefAuthToken, loginResponse.accessToken);
         PreferenceUtils.setBoolToSF(PreferenceUtils.prefIsLoggedIn, true);
         PreferenceUtils.setObjectToSF(
             PreferenceUtils.prefUserDetails, loginResponse.userInfo);
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => HomeScreen(id: id));
 
       } else {
         Fluttertoast.showToast(

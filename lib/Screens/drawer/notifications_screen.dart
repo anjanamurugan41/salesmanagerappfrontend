@@ -113,7 +113,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               return CommonApiLoader();
                               break;
                             case Status.COMPLETED:
-                              return _allNotificationsBloc.nameslist.isEmpty
+                              return _allNotificationsBloc.nameslist ==null
                                   ? SizedBox(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,7 +121,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                     SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                                     Image.asset("assets/images/no_image.png",width: 150,),
                                     Text("Result Empty",style: TextStyle(fontWeight: FontWeight.w500),)
-
                                   ],
                                 )
                               )

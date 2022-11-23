@@ -28,7 +28,6 @@ class DrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Userid.....$id");
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -237,8 +236,6 @@ class DrawerScreen extends StatelessWidget {
         ]),
         onTap: () {
           if (type == 1) {
-            //Notification
-            // Fluttertoast.showToast(msg: "Work in progress");
             Get.off(() => NotificationsScreen(user_id: id,));
           } else if (type == 2) {
             //Calender

@@ -344,6 +344,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 
+
   _buildAddSalesPerson() {
     if (LoginModel().userDetails.role == "admin") {
       if (salesPersonReceived != null) {

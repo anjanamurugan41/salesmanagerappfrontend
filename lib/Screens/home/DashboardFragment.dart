@@ -13,7 +13,6 @@ import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/Utilities/app_helper.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
 import 'package:sales_manager_app/widgets/task_list_item.dart';
-
 import '../task_details_screen.dart';
 
 class DashboardFragment extends StatefulWidget {

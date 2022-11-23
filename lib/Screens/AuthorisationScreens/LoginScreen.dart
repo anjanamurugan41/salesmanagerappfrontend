@@ -29,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _userName;
   String _password;
-  int _id;
   bool _obscurePasswordText = true;
   CommonInfoBloc _commonInfoBloc;
 
@@ -227,7 +226,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var resBody = {};
     resBody["email"] = _userName;
     resBody["password"] = _password;
-    resBody["id"]=_id;
     _commonInfoBloc.userLogin(json.encode(resBody)).then((value) {
       Get.back();
       LoginResponse loginResponse = value;
@@ -240,6 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
         PreferenceUtils.setObjectToSF(
             PreferenceUtils.prefUserDetails, loginResponse.userInfo);
         Get.offAll(() => HomeScreen());
+
       } else {
         Fluttertoast.showToast(
             msg: loginResponse.message ??

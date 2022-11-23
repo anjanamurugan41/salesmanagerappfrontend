@@ -1,157 +1,31 @@
-// import 'Pagination.dart';
-//
-// class NotificationResponse {
-//   bool _success;
-//   List<NotificationItems> _items;
-//   Pagination _pagination;
-//   String _message;
-//
-//   NotificationResponse(
-//       {bool success,
-//       List<NotificationItems> items,
-//       Pagination pagination,
-//       String message}) {
-//     this._success = success;
-//     this._items = items;
-//     this._pagination = pagination;
-//     this._message = message;
-//   }
-//
-//   bool get success => _success;
-//
-//   set success(bool success) => _success = success;
-//
-//   List<NotificationItems> get items => _items;
-//
-//   set items(List<NotificationItems> items) => _items = items;
-//
-//   Pagination get pagination => _pagination;
-//
-//   set pagination(Pagination pagination) => _pagination = pagination;
-//
-//   String get message => _message;
-//
-//   set message(String message) => _message = message;
-//
-//   NotificationResponse.fromJson(Map<String, dynamic> json) {
-//     _success = json['success'];
-//     if (json['items'] != null) {
-//       _items = new List<NotificationItems>();
-//       json['items'].forEach((v) {
-//         _items.add(new NotificationItems.fromJson(v));
-//       });
-//     }
-//     _pagination = json['pagination'] != null
-//         ? new Pagination.fromJson(json['pagination'])
-//         : null;
-//     _message = json['message'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['success'] = this._success;
-//     if (this._items != null) {
-//       data['items'] = this._items.map((v) => v.toJson()).toList();
-//     }
-//     if (this._pagination != null) {
-//       data['pagination'] = this._pagination.toJson();
-//     }
-//     data['message'] = this._message;
-//     return data;
-//   }
-// }
-//
-// class NotificationItems {
-//   String _id;
-//   String _title;
-//   String _message;
-//   String _type;
-//   String _referenceId;
-//   String _createdAt;
-//
-//   NotificationItems(
-//       {String id,
-//       String title,
-//       String message,
-//       String type,
-//       String referenceId,
-//       String createdAt}) {
-//     this._id = id;
-//     this._title = title;
-//     this._message = message;
-//     this._type = type;
-//     this._referenceId = referenceId;
-//     this._createdAt = createdAt;
-//   }
-//
-//   String get id => _id;
-//
-//   set id(String id) => _id = id;
-//
-//   String get title => _title;
-//
-//   set title(String title) => _title = title;
-//
-//   String get message => _message;
-//
-//   set message(String message) => _message = message;
-//
-//   String get type => _type;
-//
-//   set type(String type) => _type = type;
-//
-//   String get referenceId => _referenceId;
-//
-//   set referenceId(String referenceId) => _referenceId = referenceId;
-//
-//   String get createdAt => _createdAt;
-//
-//   set createdAt(String createdAt) => _createdAt = createdAt;
-//
-//   NotificationItems.fromJson(Map<String, dynamic> json) {
-//     _id = json['id'];
-//     _title = json['title'] ?? "";
-//     _message = json['messageText'] ?? "";
-//     _type = json['type'] ?? "";
-//     _referenceId = json['referenceId'];
-//     _createdAt = json['sentAt'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this._id;
-//     data['title'] = this._title;
-//     data['message'] = this._message;
-//     data['type'] = this._type;
-//     data['referenceId'] = this._referenceId;
-//     data['sentAt'] = this._createdAt;
-//     return data;
-//   }
-// }
 class NotificationResponse {
-    String message;
-    var statusCode;
     bool success;
-    List<UserName> userNames;
+    int statusCode;
+    String message;
+    List<UserName> userName;
 
-    NotificationResponse({this.message, this.statusCode, this.success, this.userNames});
+    NotificationResponse(
+        {this.success, this.statusCode, this.message, this.userName});
 
-    factory NotificationResponse.fromJson(Map<String, dynamic> json) {
-        return NotificationResponse(
-            message: json['message'],
-            statusCode: json['status_code'],
-            success: json['success'],
-            userNames: json['user_names'] != null ? (json['user_names'] as List).map((i) => UserName.fromJson(i)).toList() : null,
-        );
+    NotificationResponse.fromJson(Map<String, dynamic> json) {
+        success = json['success'];
+        statusCode = json['status_code'];
+        message = json['message'];
+        if (json['UserName'] != null) {
+            userName = new List<UserName>();
+            json['UserName'].forEach((v) {
+                userName.add(new UserName.fromJson(v));
+            });
+        }
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['message'] = this.message;
-        data['status_code'] = this.statusCode;
         data['success'] = this.success;
-        if (this.userNames != null) {
-            data['user_names'] = this.userNames.map((v) => v.toJson()).toList();
+        data['status_code'] = this.statusCode;
+        data['message'] = this.message;
+        if (this.userName != null) {
+            data['UserName'] = this.userName.map((v) => v.toJson()).toList();
         }
         return data;
     }
@@ -159,27 +33,28 @@ class NotificationResponse {
 
 class UserName {
     String name;
+    int userId;
     String image;
     String title;
     String time;
 
-    UserName({this.name,this.title,this.image,this.time});
+    UserName({this.name, this.userId, this.image, this.title, this.time});
 
-    factory UserName.fromJson(Map<String, dynamic> json) {
-        return UserName(
-            name: json['name'],
-            image: json['image'],
-            title: json['title'],
-            time: json['time']
-        );
+    UserName.fromJson(Map<String, dynamic> json) {
+        name = json['name'];
+        userId = json['user_id'];
+        image = json['image'];
+        title = json['title'];
+        time = json['time'];
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
         data['name'] = this.name;
-        data['title']=this.title;
-        data['image']=this.image;
-        data['time']=this.time;
+        data['user_id'] = this.userId;
+        data['image'] = this.image;
+        data['title'] = this.title;
+        data['time'] = this.time;
         return data;
     }
 }

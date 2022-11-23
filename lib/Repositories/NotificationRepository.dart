@@ -16,9 +16,9 @@ class NotificationRepository {
     final response = await apiProvider
         .getInstance()
         .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":id});
-    Map apiResponse = response.data;
-    print("user_id->>>$apiResponse");
 
-    return NotificationResponse.fromJson(apiResponse);
+    print("user_id->>>${response.data['UserName']}");
+
+    return NotificationResponse.fromJson(response.data);
   }
 }

@@ -18,20 +18,17 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key, this.id}) : super(key: key);
   final int id;
 
-
-
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   String authToken;
+  int user_id;
   int _currentTabIndex = 0;
   DateTime currentBackPressTime;
   @override
   Widget build(BuildContext context) {
-    print(widget.id);
     return WillPopScope(
       onWillPop: onWillPop,
       child: SafeArea(

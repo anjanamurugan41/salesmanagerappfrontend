@@ -96,16 +96,6 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
                 ),
                 flex: 1,
               ),
-              IconButton(
-                onPressed: () {
-                  showFilterScreen();
-                },
-                iconSize: 30,
-                icon: Icon(
-                  Icons.tune,
-                  color: Colors.black,
-                ),
-              ),
               SizedBox(
                 width: 5,
               )
@@ -120,6 +110,24 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(width: 20,),
+                  Text("Filter your task",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
+                 Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      showFilterScreen();
+                    },
+                    iconSize: 30,
+                    icon: Icon(
+                      Icons.tune,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
               Expanded(
                 child: RefreshIndicator(
                   color: Colors.white,
@@ -227,7 +235,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
     }
   }
 
-  void showFilterScreen() async {
+  Future<Widget> showFilterScreen() async {
     Map<String, dynamic> data = await Get.to(() => ReportFilterScreen(),
         opaque: false, fullscreenDialog: true);
 

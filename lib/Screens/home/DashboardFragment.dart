@@ -280,7 +280,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Image.asset(
-                                  "assets/images/ic_complete.png",
+                                  "assets/images/ic_rescheduled.png",
                                   fit: BoxFit.fill,
                                   width: 30,
                                   height: 30,

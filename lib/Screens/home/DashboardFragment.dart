@@ -171,7 +171,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                     ),
                     AppCard(
                       margin: EdgeInsets.fromLTRB(0, 8, 8, 12),
-                      height: screenWidth * .35,
+                      height: screenWidth * .40,
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -223,7 +223,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                   children: [
                     AppCard(
                       margin: EdgeInsets.fromLTRB(8, 8, 0, 12),
-                      height: screenWidth * .45,
+                      height: screenWidth * .40,
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -265,6 +265,52 @@ class _DashboardFragmentState extends State<DashboardFragment>
                         Get.to(() => MyTasksScreen(
                             taskStatusToList: "completed",
                             pageHeading: "Completed Task"));
+                      },
+                    ),
+                    AppCard(
+                      margin: EdgeInsets.fromLTRB(8, 8, 0, 12),
+                      height: screenWidth * .35,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.asset(
+                                  "assets/images/ic_complete.png",
+                                  fit: BoxFit.fill,
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                Icon(Icons.arrow_forward),
+                              ],
+                            ),
+                            Text('Rescheduled\nTasks',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w600)),
+                            Text(
+                              '${homeResponse.countsInfo.resheduled == 1 ? "${homeResponse.countsInfo.resheduled} Task" : "${homeResponse.countsInfo.resheduled} Tasks"}',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black45,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        Get.to(() => MyTasksScreen(
+                            taskStatusToList: "resheduled",
+                            pageHeading: "Rescheduled Task"));
                       },
                     ),
                   ],

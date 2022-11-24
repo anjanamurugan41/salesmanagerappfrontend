@@ -170,42 +170,43 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   Widget _buildUserWidget(List<UserName> namelist) {
     print("namelist->>>>>>>>${namelist[0].name}");
 
-    if (namelist.length > 0) {
-      return ListView.builder(
+      if (namelist.length > 0) {
+        return ListView.builder(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
+            itemCount: namelist.length,
+            controller: _notificationsController,
+            itemBuilder: (context, index) {
+
+              return NotificationListItem(
+                names: namelist[index].name,
+                onTap: ()  {
+                   // viewTaskNotDetail(taskItemToPass);
+                },
+              );
+            });
+      } else {
+        return SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
-          itemCount: namelist.length,
-          controller: _notificationsController,
-          itemBuilder: (context, index) {
-            return NotificationListItem(
-              names: namelist[index].name,
-              onTap: ()  {
-                // viewTaskNotDetail(taskItemToPass);
-              },
-            );
-          });
-    } else {
-      return SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-        child: CommonApiResultsEmptyWidget("Results Empty",
-            textColorReceived: Colors.black),
-      );
-    }
+          padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+          child: CommonApiResultsEmptyWidget("Results Empty",
+              textColorReceived: Colors.black),
+        );
+      }
 
   }
 
-// void viewTaskNotDetail(TaskItem taskItemToPass) async{
-//   Map<String, dynamic> data = await Get.to(() =>
-//       TaskDetailsScreen(taskId: taskItemToPass.taskid));
-//   if (data != null && mounted) {
-//     if (data.containsKey("refreshList")) {
-//       if (data["refreshList"]) {
-//         if (_allNotificationsBloc != null) {
-//           _allNotificationsBloc.getNotification(widget.user_id);
-//         }
-//       }
-//     }
-//   }
-// }
+  // void viewTaskNotDetail(TaskItem taskItemToPass) async{
+  //   Map<String, dynamic> data = await Get.to(() =>
+  //       TaskDetailsScreen(taskId: taskItemToPass.taskid));
+  //   if (data != null && mounted) {
+  //     if (data.containsKey("refreshList")) {
+  //       if (data["refreshList"]) {
+  //         if (_allNotificationsBloc != null) {
+  //           _allNotificationsBloc.getNotification(widget.user_id);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

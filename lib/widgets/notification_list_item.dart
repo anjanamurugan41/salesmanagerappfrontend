@@ -1,81 +1,100 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:intl/intl.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
-import 'package:sales_manager_app/Models/TaskItem.dart';
-import 'package:stacked_notification_cards/stacked_notification_cards.dart';
-
-import 'app_card.dart';
 
 class NotificationListItem extends StatelessWidget {
   final VoidCallback onTap;
   final names;
+  final title;
+  String time;
+  final image;
+  int id;
 
-
-  NotificationListItem({Key key, @required this.onTap, @required this.names})
+  NotificationListItem(
+      {Key key,
+        @required this.onTap,
+        @required this.names,
+        this.title,
+        this.time,
+        this.image,
+        this.id})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final format = DateFormat("dd-MM-yyyy");
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-
-    List<NotificationCard> _listOfNotification = [
-      NotificationCard(
-        date: DateTime.now(),
-        leading: Icon(
-          Icons.account_circle,
-          size: 48,
+    return Container(
+      height: 100,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: Color(buttonBgColor),
+          ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        title: 'Task',
-        subtitle: '$names Assigned Task',
-      ),
-    ];
-    return Column(
-      children: [
-        StackedNotificationCards(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.25),
-              blurRadius: 2.0,
-            )
+        elevation: 1,
+        color: Colors.grey[200],
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                height: 50,
+                width: 50,
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl:
+                  "https://www.cocoalabs.in/salesapp/public/profileimage/" + image,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black12,
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.cover),
+                    ),
+                  ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Center(
+                    child: Image(
+                      image: AssetImage(
+                        'assets/images/ic_avatar.png',
+                      ),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.height * 0.02),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Text(
+                  "$names Assigned You",
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                Text(
+                  "Task time : $time",
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            // Spacer(),
+            // IconButton(onPressed: (){
+            // }, icon: Icon(Icons.close)),
           ],
-          notificationCardTitle: 'Message',
-          notificationCards: [..._listOfNotification],
-          cardColor: Colors.grey[300],
-          padding: 8,
-          actionTitle: Text('',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          showLessAction: Text(
-            'Show less',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
-            ),
-          ),
-          onTapClearAll: () {
-            _listOfNotification.clear();
-          },
-          clearAllNotificationsAction: Icon(Icons.close),
-          clearAllStacked: Text('Clear All'),
-          cardClearButton: Text('clear'),
-          cardViewButton: Text('view'),
-          onTapClearCallback: (index) {
-            print(index);
-            _listOfNotification.removeAt(index);
-          },
-          onTapViewCallback: (index) {
-            print(index);
-          },
         ),
-      ],
+      ),
     );
   }
-
 }

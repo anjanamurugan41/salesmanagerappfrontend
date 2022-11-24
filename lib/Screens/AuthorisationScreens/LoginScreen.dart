@@ -11,6 +11,7 @@ import 'package:sales_manager_app/Constants/StringConstants.dart';
 import 'package:sales_manager_app/Elements/CommonButton.dart';
 import 'package:sales_manager_app/Elements/CommonTextFormField.dart';
 import 'package:sales_manager_app/Models/LoginResponse.dart';
+import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/Screens/AuthorisationScreens/ForgotPasswordScreen.dart';
 import 'package:sales_manager_app/Screens/AuthorisationScreens/RegisterScreen.dart';
 import 'package:sales_manager_app/Screens/home/home_screen.dart';
@@ -18,6 +19,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/PreferenceUtils.dart';
 
 class LoginScreen extends StatefulWidget {
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -230,13 +232,15 @@ class _LoginScreenState extends State<LoginScreen> {
       if (loginResponse.success) {
         LoginModel().authToken = loginResponse.accessToken;
         LoginModel().userDetails = loginResponse.userInfo;
+        int _id= LoginModel().userDetails.id;
+        // print("----------->IDDDD{$_id}");
         PreferenceUtils.setStringToSF(
             PreferenceUtils.prefAuthToken, loginResponse.accessToken);
         PreferenceUtils.setBoolToSF(PreferenceUtils.prefIsLoggedIn, true);
         PreferenceUtils.setObjectToSF(
             PreferenceUtils.prefUserDetails, loginResponse.userInfo);
+        Get.offAll(() => HomeScreen(id: _id));
 
-        Get.offAll(() => HomeScreen());
       } else {
         Fluttertoast.showToast(
             msg: loginResponse.message ??

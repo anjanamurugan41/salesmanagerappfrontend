@@ -54,6 +54,7 @@ class ReportsListBloc {
       if (isPagination) {
         if (tasksList.length == 0) {
           tasksList = tasksResponse.taskItemsList;
+          print("tasklist->$tasksList");
         } else {
           tasksList.addAll(tasksResponse.taskItemsList);
         }

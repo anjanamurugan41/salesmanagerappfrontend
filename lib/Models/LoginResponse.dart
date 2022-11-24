@@ -1,6 +1,5 @@
 import 'package:sales_manager_app/Models/UserDetails.dart';
 
-import 'UserDetails.dart';
 
 class LoginResponse {
   bool _success;

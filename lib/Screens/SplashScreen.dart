@@ -131,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigateToStartUp() {
     if (LoginModel().authToken != null && LoginModel().authToken != "") {
-      Get.offAll(() => HomeScreen(), transition: Transition.fade);
+      Get.offAll(() => HomeScreen(id: userDetails.id), transition: Transition.fade);
     } else {
       Get.offAll(() => LoginScreen(), transition: Transition.fade);
     }

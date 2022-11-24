@@ -75,7 +75,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                                   child: Container(
                                       margin: EdgeInsets.symmetric(vertical: 8),
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 16),
+                                          vertical: 12, horizontal: 13),
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(12)),
@@ -120,7 +120,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                                   child: Container(
                                       margin: EdgeInsets.symmetric(vertical: 8),
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 16),
+                                          vertical: 12, horizontal: 13),
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(12)),

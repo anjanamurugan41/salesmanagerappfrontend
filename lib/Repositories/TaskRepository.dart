@@ -101,7 +101,7 @@ class TaskRepository {
   Future<CommonSuccessResponse> notification(String body) async {
     final response = await apiProvider
         .getInstance()
-        .post(RemoteConfig.baseUrl + RemoteConfig.notification, data: {"user_id":59});
+        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":59});
     return CommonSuccessResponse.fromJson(response.data);
   }
 

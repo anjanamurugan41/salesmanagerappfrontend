@@ -41,13 +41,14 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     _notificationsController = ScrollController();
     _notificationsController.addListener(_scrollListener);
     _allNotificationsBloc = NotificationBloc();
-    _allNotificationsBloc.getNotification();
+    _allNotificationsBloc.getNotification(widget.user_id);
+    print(widget.user_id);
   }
 
   @override
   void dispose() {
     _notificationsController.dispose();
-    // _allNotificationsBloc.getNotification(user_id);
+    _allNotificationsBloc.getNotification(widget.user_id);
     super.dispose();
   }
 
@@ -57,7 +58,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
       print("reach the bottom");
       if (_allNotificationsBloc.nameslist.isEmpty) {
         Future.delayed(const Duration(milliseconds: 1000), () {
-          _allNotificationsBloc.getNotification();
+          _allNotificationsBloc.getNotification(widget.user_id);
         });
       }
     }
@@ -69,7 +70,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   void _errorWidgetFunction() {
     if (_allNotificationsBloc != null) {
-      _allNotificationsBloc.getNotification();
+      _allNotificationsBloc.getNotification(widget.user_id);
     }
   }
 
@@ -101,7 +102,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   color: Colors.white,
                   backgroundColor: Colors.cyan,
                   onRefresh: () {
-                    return _allNotificationsBloc.getNotification();
+                    return _allNotificationsBloc.getNotification(widget.user_id);
                   },
                   child: StreamBuilder<ApiResponse<NotificationResponse>>(
                       stream: _allNotificationsBloc.notificationStream,
@@ -112,9 +113,18 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               return CommonApiLoader();
                               break;
                             case Status.COMPLETED:
-                              NotificationResponse response = snapshot.data.data;
-                              print("response->${response}");
-                              return _buildUserWidget(_allNotificationsBloc.nameslist);
+                              return _allNotificationsBloc.nameslist ==null
+                                  ? SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                                    Image.asset("assets/images/no_image.png",width: 150,),
+                                    Text("Result Empty",style: TextStyle(fontWeight: FontWeight.w500),)
+                                  ],
+                                )
+                              )
+                                  : _buildUserWidget(_allNotificationsBloc.nameslist,widget.user_id);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -167,24 +177,31 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     }
   }
 
-  Widget _buildUserWidget(List<UserName> namelist) {
-    print("namelist->>>>>>>>${namelist[0].name}");
-
+  Widget _buildUserWidget(List<UserName> namelist,id) {
       if (namelist.length > 0) {
-        return ListView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
-            itemCount: namelist.length,
-            controller: _notificationsController,
-            itemBuilder: (context, index) {
-
-              return NotificationListItem(
-                names: namelist[index].name,
-                onTap: ()  {
-                   // viewTaskNotDetail(taskItemToPass);
-                },
-              );
-            });
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black,
+              ),
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
+              itemCount: namelist.length,
+              controller: _notificationsController,
+              itemBuilder: (context, index) {
+                return NotificationListItem(
+                  names: namelist[index].name,
+                  title: namelist[index].title,
+                  image: namelist[index].image,
+                  time: namelist[index].time,
+                  id: id,
+                  onTap: ()  {
+                     // viewTaskNotDetail(taskItemToPass);
+                  },
+                );
+              }),
+        );
       } else {
         return SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),

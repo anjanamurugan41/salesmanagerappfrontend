@@ -20,6 +20,7 @@ class RemoteConfig {
   static const getTaskDetail = "onetask";
   static const createNewTask = "CreateTask";
   static const updateTask = "update";
+  static const resheduleTask = "reschedule/task";
   static const updateTaskStatus = "shedule";
   static const changeSalesPerson = "reassign";
   static const deleteTask = "delete";

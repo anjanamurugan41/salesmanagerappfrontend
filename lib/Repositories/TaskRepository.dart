@@ -80,6 +80,13 @@ class TaskRepository {
         data: body);
     return CommonSuccessResponse.fromJson(response.data);
   }
+  Future<CommonSuccessResponse> rescheduleTask(String body) async {
+    final response = await apiProvider.getInstance().post(
+        RemoteConfig.baseUrl + RemoteConfig.resheduleTask,
+        data: body);
+    print("rescheduleresponse->$response");
+    return CommonSuccessResponse.fromJson(response.data);
+  }
 
   Future<CommonSuccessResponse> updateTaskStatus(String body) async {
     final response = await apiProvider

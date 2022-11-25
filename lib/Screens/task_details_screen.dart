@@ -26,6 +26,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
 
 import 'drawer/sales_person_list_screen.dart';
+import 'home/rescheduletaskScreen.dart';
 
 class TaskDetailsScreen extends StatefulWidget {
   int taskId;
@@ -465,7 +466,18 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           } else {
             editTask(taskDetailResponse.taskDetails);
           }
-        } else if (value == 2) {
+        }
+        else if (value == 2) {
+          if (taskDetailResponse.taskDetails.status == 0 ||
+              !checkIsOwner(taskDetailResponse)) {
+            Fluttertoast.showToast(
+                msg: "You are not permitted to perform this action");
+          } else {
+            reschedule(taskDetailResponse.taskDetails);
+          }
+        }
+
+        else if (value == 3) {
           if (taskDetailResponse.taskDetails.status == 0 ||
               LoginModel().userDetails.role != "admin") {
             Fluttertoast.showToast(
@@ -473,14 +485,16 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           } else {
             changeSalesPerson();
           }
-        } else if (value == 3) {
+        }
+
+        else if (value == 4) {
           if (taskDetailResponse.taskDetails.status == 0) {
             Fluttertoast.showToast(
                 msg: "You are not permitted to perform this action");
           } else {
             changeTaskStatus(taskDetailResponse.taskDetails);
           }
-        } else if (value == 4) {
+        } else if (value == 5) {
           if (LoginModel().userDetails.role != "admin") {
             Fluttertoast.showToast(
                 msg: "You are not permitted to perform this action");
@@ -508,10 +522,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
         PopupMenuItem(
           value: 2,
-          child: Text("Re-assign",
+          child: Text("Re-Schedule",
               style: TextStyle(
                   color: taskDetailResponse.taskDetails.status == 0 ||
-                          LoginModel().userDetails.role != "admin"
+                      !checkIsOwner(taskDetailResponse)
                       ? Colors.black26
                       : Color(colorCodeBlack),
                   fontSize: 14,
@@ -519,6 +533,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
         PopupMenuItem(
           value: 3,
+          child: Text("Re-assign",
+              style: TextStyle(
+                  color: taskDetailResponse.taskDetails.status == 0 ||
+                      LoginModel().userDetails.role != "admin"
+                      ? Colors.black26
+                      : Color(colorCodeBlack),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),
+        ),
+        PopupMenuItem(
+          value: 4,
           child: Text("Change Status",
               style: TextStyle(
                   color: taskDetailResponse.taskDetails.status == 0
@@ -528,7 +553,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                   fontWeight: FontWeight.bold)),
         ),
         PopupMenuItem(
-          value: 4,
+          value: 5,
           child: Text("Delete Task",
               style: TextStyle(
                   color: LoginModel().userDetails.role != "admin"
@@ -602,6 +627,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           taskDetails: taskInfo,
         ));
 
+
     if (data != null && mounted) {
       if (data.containsKey("taskUpdated")) {
         if (data["taskUpdated"]) {
@@ -613,11 +639,27 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       }
     }
   }
+  void reschedule(TaskDetails taskInfo) async {
+    print("gf");
+    Map<String, dynamic> data = await Get.to(() => RescheduleTask(taskid: widget.taskId,
+    ));
 
+
+    if (data != null && mounted) {
+      if (data.containsKey("taskUpdated")) {
+        if (data["taskUpdated"]) {
+          isChangesMade = true;
+          if (_taskDetailBloc != null) {
+            _taskDetailBloc.getTaskDetail(widget.taskId);
+          }
+        }
+      }
+    }
+  }
   void changeTaskStatus(TaskDetails taskInfo) async {
-    Map<String, dynamic> data = await Get.to(() => UpdateTaskStatusScreen(
-          taskId: widget.taskId,
-          salesManId: taskInfo.person.id,
+    Map<String, dynamic> data = await Get.to(() => RescheduleTask(
+          // taskId: widget.taskId,
+          // salesManId: taskInfo.person.id,
         ));
 
     if (data != null && mounted) {

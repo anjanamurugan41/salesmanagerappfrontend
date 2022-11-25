@@ -56,15 +56,15 @@ class CountsInfo {
   int completed;
   int pending;
   int rejected;
-  int resheduled;
+  int rescheduled;
 
-  CountsInfo({this.completed, this.pending, this.rejected, this.resheduled});
+  CountsInfo({this.completed, this.pending, this.rejected, this.rescheduled});
 
   CountsInfo.fromJson(Map<String, dynamic> json) {
     completed = json['completed'] ?? 0;
     pending = json['Pending'] ?? 0;
     rejected = json['Rejected'] ?? 0;
-    resheduled = json['Reshedules'] ?? 0;
+    rescheduled = json['Rescheduled'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -72,7 +72,7 @@ class CountsInfo {
     data['completed'] = this.completed;
     data['Pending'] = this.pending;
     data['Rejected'] = this.rejected;
-    data['Reshedules'] = this.resheduled;
+    data['Rescheduled'] = this.rescheduled;
     return data;
   }
 }

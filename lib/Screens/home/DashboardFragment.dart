@@ -299,7 +299,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.w600)),
                             Text(
-                              '${homeResponse.countsInfo.resheduled == 1 ? "${homeResponse.countsInfo.resheduled} Task" : "${homeResponse.countsInfo.resheduled} Tasks"}',
+                              '${homeResponse.countsInfo.rescheduled == 1 ? "${homeResponse.countsInfo.rescheduled} Task" : "${homeResponse.countsInfo.rescheduled} Tasks"}',
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black45,

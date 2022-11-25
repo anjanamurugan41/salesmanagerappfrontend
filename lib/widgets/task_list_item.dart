@@ -108,7 +108,10 @@ class TaskListItem extends StatelessWidget {
       return 'assets/images/ic_pending.png';
     } else if (taskItem.status == 2) {
       return 'assets/images/ic_reject.png';
-    } else {
+    } else if (taskItem.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
+    }
+    else {
       return 'assets/images/ic_pending.png';
     }
   }

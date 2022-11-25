@@ -657,9 +657,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     }
   }
   void changeTaskStatus(TaskDetails taskInfo) async {
-    Map<String, dynamic> data = await Get.to(() => RescheduleTask(
-          // taskId: widget.taskId,
-          // salesManId: taskInfo.person.id,
+    Map<String, dynamic> data = await Get.to(() => UpdateTaskStatusScreen(
+          taskId: widget.taskId,
+          salesManId: taskInfo.person.id,
         ));
 
     if (data != null && mounted) {
@@ -815,12 +815,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
   String getStatus(TaskDetails taskDetails) {
     if (taskDetails.status == 0) {
+      print("task->$taskDetails.status");
       return "Completed";
     } else if (taskDetails.status == 1) {
       return "Pending";
     } else if (taskDetails.status == 2) {
       return "Rejected";
-    } else {
+    }
+    else if (taskDetails.status == 3) {
+      return "Rescheduled";
+    }
+    else {
       return "Status Unknown";
     }
   }
@@ -832,7 +837,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (taskItem.status == 2) {
       return 'assets/images/ic_reject.png';
-    } else {
+    }
+    else if (taskItem.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
+    }
+    else {
       return 'assets/images/ic_pending.png';
     }
   }
@@ -844,7 +853,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (report.status == 2) {
       return 'assets/images/ic_reject.png';
-    } else {
+    }
+    else if (report.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
+    }
+    else {
       return 'assets/images/ic_pending.png';
     }
   }
@@ -856,7 +869,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return "Pending";
     } else if (report.status == 2) {
       return "Rejected";
-    } else {
+    }
+    else if (report.status == 3) {
+      return "Reschedule";
+    }
+    else {
       return "Status Unknown";
     }
   }

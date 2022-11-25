@@ -281,7 +281,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                               children: [
                                 Image.asset(
 
-                                  "assets/images/ic_complete.png",
+                                  "assets/images/ic_rescheduled.png",
 
                                   fit: BoxFit.fill,
                                   width: 30,

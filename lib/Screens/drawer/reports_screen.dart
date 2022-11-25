@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_manager_app/Blocs/ReportsListBloc.dart';
+import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/LinearLoader.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/dot_type.dart';
 import 'package:sales_manager_app/Elements/CommonApiErrorWidget.dart';
@@ -11,6 +12,8 @@ import 'package:sales_manager_app/Elements/CommonAppBar.dart';
 import 'package:sales_manager_app/Interfaces/LoadMoreListener.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
 import 'package:sales_manager_app/Models/TaskItem.dart';
+import 'package:sales_manager_app/Screens/drawer/reportgeneratescreen.dart';
+import 'package:sales_manager_app/Screens/report_task_details_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
@@ -190,6 +193,23 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
             ],
           ),
         ),
+        bottomSheet: InkWell(
+          onTap: (){
+            showReportScreen();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(buttonBgColor),
+              borderRadius: BorderRadius.only(
+                topRight:Radius.circular(20) ,
+                topLeft:Radius.circular(20)
+              ),
+            ),
+            height: 50,
+            child: Center(child: Text("Generate Report",style: TextStyle(color: Color(colorCodeWhite),fontSize: 14,
+           fontWeight: FontWeight.w500 ),)),
+          ),
+        ),
       ),
     );
   }
@@ -235,8 +255,43 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
     }
   }
 
-  Future<Widget> showFilterScreen() async {
+  void showFilterScreen() async {
     Map<String, dynamic> data = await Get.to(() => ReportFilterScreen(),
+        opaque: false, fullscreenDialog: true);
+
+    if (data != null && mounted) {
+      if (data.containsKey("isFilterApplied")) {
+        print("*****isFilterApplied");
+        if (data["isFilterApplied"]) {
+          if (data.containsKey("taskStatus")) {
+            statusToPass = data["taskStatus"];
+          }
+
+          if (data.containsKey("startDate")) {
+            fromDateToPass = data["startDate"];
+          }
+
+          if (data.containsKey("endDate")) {
+            toDateToPass = data["endDate"];
+          }
+
+          if (data.containsKey("salesPersonId")) {
+            salesPersonToPass = data["salesPersonId"];
+          } else if(LoginModel().userDetails.role != "admin"){
+            salesPersonToPass = LoginModel().userDetails.id;
+          }
+
+          if (_allTasksBloc != null) {
+            _allTasksBloc.getReportsList(false, fromDateToPass, toDateToPass,
+                statusToPass, salesPersonToPass);
+          }
+        }
+      }
+    }
+  }
+
+  void showReportScreen() async {
+    Map<String, dynamic> data = await Get.to(() => ReportGenerateScreen(),
         opaque: false, fullscreenDialog: true);
 
     if (data != null && mounted) {
@@ -272,7 +327,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
 
   void viewTaskDetail(TaskItem taskItemToPass) async {
     Map<String, dynamic> data =
-        await Get.to(() => TaskDetailsScreen(taskId: taskItemToPass.taskid));
+        await Get.to(() => ReportTaskDetailsScreen(taskId: taskItemToPass.taskid));
 
     if (data != null && mounted) {
       if (data.containsKey("refreshList")) {

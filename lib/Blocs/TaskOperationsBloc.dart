@@ -45,6 +45,14 @@ class TaskOperationsBloc {
       throw CommonMethods().getNetworkError(error);
     }
   }
+  Future<CommonSuccessResponse> rescheduleTask(String body,) async {
+    try {
+      CommonSuccessResponse otpResponse = await otpRepository.rescheduleTask(body);
+      return otpResponse;
+    } catch (error) {
+      throw CommonMethods().getNetworkError(error);
+    }
+  }
 
   Future<CommonSuccessResponse> updateTaskStatus(String body) async {
     try {

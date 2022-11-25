@@ -13,12 +13,15 @@ class NotificationListItem extends StatelessWidget {
 
   NotificationListItem(
       {Key key,
+
         @required this.onTap,
         @required this.names,
         this.title,
         this.time,
         this.image,
         this.id})
+
+
       : super(key: key);
 
   @override
@@ -47,7 +50,8 @@ class NotificationListItem extends StatelessWidget {
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
                   imageUrl:
-                  "https://www.cocoalabs.in/salesapp/public/profileimage/" + image,
+  "https://www.cocoalabs.in/salesapp/public/profileimage/" + image,
+
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -97,4 +101,6 @@ class NotificationListItem extends StatelessWidget {
       ),
     );
   }
+
 }
+

@@ -1,16 +1,9 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sales_manager_app/Models/AllSalesPersonResponse.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
 import 'package:sales_manager_app/Models/CommonSuccessResponse.dart';
 import 'package:sales_manager_app/Models/TaskDetailResponse.dart';
 import 'package:sales_manager_app/ServiceManager/ApiProvider.dart';
 import 'package:sales_manager_app/ServiceManager/RemoteConfig.dart';
-import 'package:sales_manager_app/Utilities/app_helper.dart';
-
 
 class TaskRepository {
   ApiProvider apiProvider;
@@ -87,6 +80,13 @@ class TaskRepository {
         data: body);
     return CommonSuccessResponse.fromJson(response.data);
   }
+  Future<CommonSuccessResponse> rescheduleTask(String body) async {
+    final response = await apiProvider.getInstance().post(
+        RemoteConfig.baseUrl + RemoteConfig.resheduleTask,
+        data: body);
+    print("rescheduleresponse->$response");
+    return CommonSuccessResponse.fromJson(response.data);
+  }
 
   Future<CommonSuccessResponse> updateTaskStatus(String body) async {
     final response = await apiProvider
@@ -105,28 +105,11 @@ class TaskRepository {
     return AllTaskResponse.fromJson(response.data);
   }
 
-  Future<AllTaskResponse> getTreatmentReport() async {
-
-    Permission permissions = await Permission.manageExternalStorage;
-    if (permissions.status != PermissionStatus.granted) {
-      final res = await Permission.manageExternalStorage.request();
-      print(res);
-    }
-    String dt = DateTime.now().toString().split('.').last;
-
-    final savePath = Platform.isAndroid
-        ? (await getExternalStorageDirectory())?.path
-        : (await getApplicationDocumentsDirectory()).path;
-    print(savePath.toString());
-    String emulted0 = savePath.split('Android').first;
-    print(emulted0);
-    toastMessage("Download Started");
-    final response = await apiProvider.getInstance().download(
-        '${RemoteConfig.getTreatmentReport}',
-        '${emulted0}/Download/report_${dt}.pdf',
-        options: Options(responseType: ResponseType.bytes),
-        deleteOnError: true);
-    toastMessage("Download Completed");
-    return response.data;
+  Future<CommonSuccessResponse> notification(String body) async {
+    final response = await apiProvider
+        .getInstance()
+        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":59});
+    return CommonSuccessResponse.fromJson(response.data);
   }
+
 }

@@ -79,6 +79,19 @@ class AllTasksBloc {
     }
   }
 
+  Future getTreatmentReport() async {
+    print("dowload");
+    try {
+      final treatmentReport = await tasksRepository.getTreatmentReport();
+
+      return treatmentReport;
+    } catch (e, s) {
+      Completer().completeError(e, s);
+    }
+    return null;
+  }
+
+
   dispose() {
     employeeListSink?.close();
     _tasksController?.close();

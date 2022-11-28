@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/EnumValues.dart';
@@ -23,7 +24,7 @@ class ReportFilterScreen extends StatefulWidget {
 class _ReportFilterScreenState extends State<ReportFilterScreen> {
   DateTime _dateTimeFrom = DateTime.now();
   DateTime _dateTimeTo = DateTime.now();
-  String _status = 'Completed';
+  String _status = 'Select';
   SalesPersonInfo salesPersonReceived;
 
   @override
@@ -163,7 +164,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                             : false,
                       ),
                       Text(
-                        'Filter',
+                        'Select the option',
                         style: TextStyle(
                             fontWeight: FontWeight.w400, color: Colors.black45),
                       ),
@@ -176,11 +177,12 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                           border: Border.all(color: Colors.grey),
                         ),
                         child: DropdownButton<String>(
+                          hint: Text("Service Type"),
                           isExpanded: true,
                           underline: SizedBox(),
                           icon: Icon(Icons.keyboard_arrow_down_rounded),
                           value: _status,
-                          items: <String>['Completed', 'Pending', 'Rejected']
+                          items: <String>['Select','Completed', 'Pending', 'Rejected']
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

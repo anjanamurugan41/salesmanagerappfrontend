@@ -25,4 +25,5 @@ class RemoteConfig {
   static const deleteTask = "delete";
   static const getMonthWiseReport = "monthsearch";
   static const getNotifications = "get/task/creators";
+  static const getTreatmentReport="";
 }

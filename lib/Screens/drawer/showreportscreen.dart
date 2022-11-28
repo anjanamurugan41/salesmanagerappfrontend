@@ -18,7 +18,7 @@ class ShowReportScreen extends StatefulWidget {
 }
 
 class _ShowReportScreenState extends State<ShowReportScreen> {
-  String mail = "info@crowdworksindia.org";
+
 
   void _backPressFunction() {
     print("clicked");
@@ -33,48 +33,10 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
           preferredSize: Size.fromHeight(60.0), // here the desired height
           child:Padding(
             padding: EdgeInsets.all(12),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: (){
-                    _backPressFunction();
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(
-                        color: Color(buttonBgColor),
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_rounded,
-                      size: 22,
-                      color: Color(buttonBgColor),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10,),
-                Expanded(
-                    child: Text("Report",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    )),
-                AppIcon(
-                    iconData: CupertinoIcons.down_arrow,
-                    onTap: () {
-
-                    }),
-              ],
-            ),
-          )),
-          // CommonAppBar(
-          //   text: "Report",
-          //   buttonHandler: _backPressFunction,
-          // ),
+            child: CommonAppBar(
+              text: "Report",
+              buttonHandler: _backPressFunction,
+            ),)),
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -83,7 +45,7 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: [
-                Text("You can download and share your reports",style: TextStyle(
+                Text("You can share your reports",style: TextStyle(
                   fontWeight: FontWeight.w500
                 ),),
                 SizedBox(height: 15,),

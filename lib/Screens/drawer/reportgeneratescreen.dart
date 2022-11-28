@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/EnumValues.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/RoundedLoader.dart';
-import 'package:sales_manager_app/Elements/CommonButton.dart';
 import 'package:sales_manager_app/Models/AllSalesPersonResponse.dart';
 import 'package:sales_manager_app/Screens/drawer/sales_person_list_screen.dart';
 import 'package:sales_manager_app/Screens/drawer/showreportscreen.dart';
@@ -15,6 +12,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/app_button.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ReportGenerateScreen extends StatefulWidget {
   @override
@@ -53,7 +51,6 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              //todo change calendar, clock icons
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,19 +161,25 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                           ),
                           GestureDetector(
                             onTap: (){
-
+                              launchUrlString("http://www.africau.edu/images/default/sample.pdf");
+                              Get.to(ShowReportScreen());
                             },
                             child: Container(
                               height: 50.0,
                               width: double.infinity,
+                              decoration: BoxDecoration(
+                                color:Color(buttonBgColor),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
                               margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: CommonButton(
-                                  buttonText: " Generate ",
-                                  bgColorReceived: Color(buttonBgColor),
-                                  borderColorReceived: Color(buttonBgColor),
-                                  textColorReceived: Color(colorCodeWhite),
-                                 buttonHandler: showReport
-                                  ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Download",style: TextStyle(color: Colors.white ),),
+                                  SizedBox(width: 10,),
+                                  Icon(Icons.file_download,color: Colors.white,size: 25,)
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -208,10 +211,7 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
     );
   }
 
-  showReport() {
-    Get.to(ShowReportScreen()
-    );
-  }
+
 
   _buildAddSalesPerson() {
     if (LoginModel().userDetails.role == "admin") {

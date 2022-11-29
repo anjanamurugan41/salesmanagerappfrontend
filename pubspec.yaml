@@ -44,6 +44,11 @@ dependencies:
   stacked_notification_cards: ^0.1.0-dev.2
   flutter_share: ^2.0.0
   permission_handler: ^10.2.0
+  syncfusion_flutter_pdfviewer: ^20.3.59
+  share_plus: ^6.3.0
+
+
+
 
 dev_dependencies:
   flutter_test:

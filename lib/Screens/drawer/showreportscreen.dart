@@ -1,25 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
+import 'package:flutter_share/flutter_share.dart' as shr;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Elements/CommonAppBar.dart';
-import 'package:sales_manager_app/widgets/app_icon.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-enum Share { whatsapp }
+import 'package:sales_manager_app/Utilities/app_helper.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ShowReportScreen extends StatefulWidget {
-  const ShowReportScreen({Key key}) : super(key: key);
+  final File pdf;
+  const ShowReportScreen({Key key, this.pdf}) : super(key: key);
 
   @override
   State<ShowReportScreen> createState() => _ShowReportScreenState();
 }
 
 class _ShowReportScreenState extends State<ShowReportScreen> {
-
-
   void _backPressFunction() {
     print("clicked");
     Get.back();
@@ -27,16 +26,18 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.pdf.path);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0), // here the desired height
-          child:Padding(
-            padding: EdgeInsets.all(12),
-            child: CommonAppBar(
-              text: "Report",
-              buttonHandler: _backPressFunction,
-            ),)),
+            preferredSize: Size.fromHeight(60.0), // here the desired height
+            child: Padding(
+              padding: EdgeInsets.all(12),
+              child: CommonAppBar(
+                text: "Report",
+                buttonHandler: _backPressFunction,
+              ),
+            )),
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -45,18 +46,25 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: [
-                Text("You can share your reports",style: TextStyle(
-                  fontWeight: FontWeight.w500
-                ),),
-                SizedBox(height: 15,),
+                Text(
+                  "You can share your reports",
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.66,
+                  width: screenWidth,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     border: Border.all(
                       width: 2,
                       color: Color(buttonBgColor),
                     ),
+                  ),
+                  child: SfPdfViewer.file(
+                    widget.pdf,
                   ),
                 ),
               ],
@@ -68,6 +76,7 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
           backgroundColor: Color(buttonBgColor),
           onPressed: () {
             share();
+            //shareFile();
           },
         ),
       ),
@@ -75,10 +84,28 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
   }
 
   Future<void> share() async {
-    await FlutterShare.share(
-      title: 'Sales App',
-      text: "inviting to use Sales App ,Most useful and helping App. ",
-      // chooserTitle: 'Sales app'
+    await Share.shareFiles(
+      [widget.pdf.path],
     );
   }
+
+  Future<void> shareFile() async {
+    await shr.FlutterShare.shareFile(
+      title: 'Example share',
+      text: 'Example share text',
+      filePath: widget.pdf.path,
+    );
+  }
+
+  // Future<void> shareFile() async {
+  //   final result = await FilePicker.platform.pickFiles();
+  //   if (result == null || result.files.isEmpty) return null;
+  //
+  //   await FlutterShare.shareFile(
+  //     title: 'Example share',
+  //     text: 'Example share text',
+  //     filePath: result.files[0] as String,
+  //   );
+  // }
+
 }

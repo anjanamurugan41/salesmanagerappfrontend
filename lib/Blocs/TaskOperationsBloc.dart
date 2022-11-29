@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:sales_manager_app/Constants/CommonMethods.dart';
 import 'package:sales_manager_app/Models/CommonSuccessResponse.dart';
+import 'package:sales_manager_app/Repositories/CommonInfoRepository.dart';
 import 'package:sales_manager_app/Repositories/TaskRepository.dart';
 
 class TaskOperationsBloc {
   TaskRepository otpRepository;
+  CommonInfoRepository reportrepository;
 
   TaskOperationsBloc() {
     otpRepository = TaskRepository();
+    reportrepository = CommonInfoRepository();
   }
 
   Future<CommonSuccessResponse> createNewTask(String body) async {
@@ -20,7 +25,8 @@ class TaskOperationsBloc {
 
   Future<CommonSuccessResponse> changeSalesPerson(String body) async {
     try {
-      CommonSuccessResponse otpResponse = await otpRepository.changeSalesPersonOfTask(body);
+      CommonSuccessResponse otpResponse =
+          await otpRepository.changeSalesPersonOfTask(body);
       return otpResponse;
     } catch (error) {
       throw CommonMethods().getNetworkError(error);
@@ -39,15 +45,20 @@ class TaskOperationsBloc {
 
   Future<CommonSuccessResponse> updateTask(String body, int taskId) async {
     try {
-      CommonSuccessResponse otpResponse = await otpRepository.updateTask(body, taskId);
+      CommonSuccessResponse otpResponse =
+          await otpRepository.updateTask(body, taskId);
       return otpResponse;
     } catch (error) {
       throw CommonMethods().getNetworkError(error);
     }
   }
-  Future<CommonSuccessResponse> rescheduleTask(String body,) async {
+
+  Future<CommonSuccessResponse> rescheduleTask(
+    String body,
+  ) async {
     try {
-      CommonSuccessResponse otpResponse = await otpRepository.rescheduleTask(body);
+      CommonSuccessResponse otpResponse =
+          await otpRepository.rescheduleTask(body);
       return otpResponse;
     } catch (error) {
       throw CommonMethods().getNetworkError(error);
@@ -56,10 +67,30 @@ class TaskOperationsBloc {
 
   Future<CommonSuccessResponse> updateTaskStatus(String body) async {
     try {
-      CommonSuccessResponse otpResponse = await otpRepository.updateTaskStatus(body);
+      CommonSuccessResponse otpResponse =
+          await otpRepository.updateTaskStatus(body);
       return otpResponse;
     } catch (error) {
       throw CommonMethods().getNetworkError(error);
     }
+  }
+
+  // Future reportgenerate(String body,) async {
+  //   try {
+  //     final  otpResponse = await reportrepository.getpdfofreport(body);
+  //     return otpResponse;
+  //   } catch (error) {
+  //     throw CommonMethods().getNetworkError(error);
+  //   }
+  // }
+  Future reportGenerate(int id , DateTime dateFrom, DateTime dateTo) async {
+    print("dowload");
+    try {
+      final treatmentReport = await reportrepository.getPdfOfReport(id,dateFrom,dateTo);
+      return treatmentReport;
+    } catch (e, s) {
+      Completer().completeError(e, s);
+    }
+    return null;
   }
 }

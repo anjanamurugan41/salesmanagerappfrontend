@@ -513,7 +513,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           value: 1,
           child: Text("Edit Task",
               style: TextStyle(
-                  color: taskDetailResponse.taskDetails.status == 0 ||
+                  color: taskDetailResponse.taskDetails.status == 0 ||  taskDetailResponse.taskDetails.status == 2||
                           !checkIsOwner(taskDetailResponse)
                       ? Colors.black26
                       : Color(colorCodeBlack),
@@ -524,7 +524,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           value: 2,
           child: Text("Re-Schedule",
               style: TextStyle(
-                  color: taskDetailResponse.taskDetails.status == 0 ||
+                  color: taskDetailResponse.taskDetails.status == 0 ||  taskDetailResponse.taskDetails.status == 2||
                       !checkIsOwner(taskDetailResponse)
                       ? Colors.black26
                       : Color(colorCodeBlack),
@@ -546,7 +546,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           value: 4,
           child: Text("Change Status",
               style: TextStyle(
-                  color: taskDetailResponse.taskDetails.status == 0
+                  color: taskDetailResponse.taskDetails.status == 0 ||  taskDetailResponse.taskDetails.status == 2
                       ? Colors.black26
                       : Color(colorCodeBlack),
                   fontSize: 14,

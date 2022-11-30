@@ -24,7 +24,7 @@ class ReportFilterScreen extends StatefulWidget {
 class _ReportFilterScreenState extends State<ReportFilterScreen> {
   DateTime _dateTimeFrom = DateTime.now();
   DateTime _dateTimeTo = DateTime.now();
-  String _status = 'Select';
+  String _status;
   SalesPersonInfo salesPersonReceived;
 
   @override
@@ -164,7 +164,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                             : false,
                       ),
                       Text(
-                        'Select the option',
+                        'Filter',
                         style: TextStyle(
                             fontWeight: FontWeight.w400, color: Colors.black45),
                       ),
@@ -173,16 +173,16 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(12)),
+                          const BorderRadius.all(Radius.circular(12)),
                           border: Border.all(color: Colors.grey),
                         ),
                         child: DropdownButton<String>(
-                          hint: Text("Service Type"),
                           isExpanded: true,
                           underline: SizedBox(),
                           icon: Icon(Icons.keyboard_arrow_down_rounded),
+                          hint: Text('- select -'),
                           value: _status,
-                          items: <String>['Select','Completed', 'Pending', 'Rejected','Rescheduled']
+                          items: <String>['Completed', 'Pending', 'Rejected',"Rescheduled"]
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

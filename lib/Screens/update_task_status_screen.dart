@@ -99,7 +99,7 @@ class _UpdateTaskStatusScreenState extends State<UpdateTaskStatusScreen> {
                         icon: Icon(Icons.keyboard_arrow_down_rounded),
                         hint: Text('- select -'),
                         value: _status,
-                        items: <String>['Completed', 'Pending', 'Rejected',"rescheduled"]
+                        items: <String>['Completed', 'Pending', 'Rejected',"Rescheduled"]
                             .map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,

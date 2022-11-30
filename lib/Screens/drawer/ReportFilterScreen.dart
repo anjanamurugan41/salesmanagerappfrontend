@@ -182,7 +182,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                           underline: SizedBox(),
                           icon: Icon(Icons.keyboard_arrow_down_rounded),
                           value: _status,
-                          items: <String>['Select','Completed', 'Pending', 'Rejected']
+                          items: <String>['Select','Completed', 'Pending', 'Rejected','Rescheduled']
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

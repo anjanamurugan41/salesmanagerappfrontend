@@ -280,9 +280,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Image.asset(
-
-                                  "assets/images/ic_complete.png",
-
+                                  "assets/images/ic_rescheduled.png",
                                   fit: BoxFit.fill,
                                   width: 30,
                                   height: 30,
@@ -311,9 +309,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                       ),
                       onTap: () {
                         Get.to(() => MyTasksScreen(
-
-                            taskStatusToList: "rescheduled",
-
+                            taskStatusToList: "Rescheduled",
                             pageHeading: "Rescheduled Task"));
                       },
                     ),

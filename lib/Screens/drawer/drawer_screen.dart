@@ -243,7 +243,7 @@ class DrawerScreen extends StatelessWidget {
             //Get.off(() => CalendarPage2());
           } else if (type == 3) {
             //Reports
-            Get.off(() => ReportsScreen());
+            Get.off(() => ReportsScreen(user_id: id,));
           } else if (type == 4) {
             // Todays tasks
             Get.off(() => MyTasksScreen(

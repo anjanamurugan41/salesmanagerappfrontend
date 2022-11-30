@@ -47,17 +47,16 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
             child: Column(
               children: [
                 Text(
-                  "You can share your reports",
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  "You can share your report",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.66,
+                  height: MediaQuery.of(context).size.height * 0.58,
                   width: screenWidth,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
                     border: Border.all(
                       width: 2,
                       color: Color(buttonBgColor),

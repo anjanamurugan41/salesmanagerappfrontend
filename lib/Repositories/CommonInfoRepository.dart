@@ -112,6 +112,7 @@ class CommonInfoRepository {
   //   return response;
   // }
   Future<File> getPdfOfReport(int id, DateTime fromDate,DateTime toDate) async {
+
     Permission permissions = await Permission.manageExternalStorage;
     if (permissions.status != PermissionStatus.granted) {
       final res = await Permission.manageExternalStorage.request();
@@ -122,10 +123,11 @@ class CommonInfoRepository {
       print(res);
     }
     String dt = DateTime.now().toString().split('.').last;
+
     final formData = jsonEncode({
       "salesman_id": 66,
-      "from_date": fromDate.toIso8601String(),
-      "to_date": toDate.toIso8601String()
+      "from_date": "${DateHelper.formatDateTime(fromDate, 'yyyy-MM-dd')}",
+      "to_date":"${DateHelper.formatDateTime(toDate, 'yyyy-MM-dd')}"
     });
     final savePath = Platform.isAndroid
         ? (await getExternalStorageDirectory())?.path

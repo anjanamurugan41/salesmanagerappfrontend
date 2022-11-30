@@ -779,7 +779,10 @@ class _ReportTaskDetailsScreenState extends State<ReportTaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (taskItem.status == 2) {
       return 'assets/images/ic_reject.png';
-    } else {
+    } else if (taskItem.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
+    }
+    else {
       return 'assets/images/ic_pending.png';
     }
   }
@@ -791,7 +794,10 @@ class _ReportTaskDetailsScreenState extends State<ReportTaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (report.status == 2) {
       return 'assets/images/ic_reject.png';
-    } else {
+    }  else if (report.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
+    }
+    else {
       return 'assets/images/ic_pending.png';
     }
   }
@@ -803,7 +809,10 @@ class _ReportTaskDetailsScreenState extends State<ReportTaskDetailsScreen> {
       return "Pending";
     } else if (report.status == 2) {
       return "Rejected";
-    } else {
+    } else if (report.status == 3) {
+      return "Rescheduled";
+    }
+    else {
       return "Status Unknown";
     }
   }

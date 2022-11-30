@@ -24,6 +24,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ReportGenerateScreen extends StatefulWidget {
+  int user_id;
+  ReportGenerateScreen({Key key,this.user_id}) : super(key: key);
   @override
   _ReportGenerateScreenState createState() => _ReportGenerateScreenState();
 }
@@ -179,7 +181,7 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                           GestureDetector(
                             onTap: ()async{
                               pdf =
-                              await _taskOperationsBloc.reportGenerate(66,_dateTimeFrom,_dateTimeTo);
+                              await _taskOperationsBloc.reportGenerate(widget.user_id,_dateTimeFrom,_dateTimeTo);
                               // _reportTaskFunction();
                               // _reportrepository.getpdfofreport();
 

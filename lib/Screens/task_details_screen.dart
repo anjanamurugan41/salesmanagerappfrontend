@@ -657,9 +657,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     }
   }
   void changeTaskStatus(TaskDetails taskInfo) async {
-    Map<String, dynamic> data = await Get.to(() => RescheduleTask(
-          // taskId: widget.taskId,
-          // salesManId: taskInfo.person.id,
+    Map<String, dynamic> data = await Get.to(() => UpdateTaskStatusScreen(
+          taskId: widget.taskId,
+          salesManId: taskInfo.person.id,
         ));
 
     if (data != null && mounted) {
@@ -820,7 +820,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return "Pending";
     } else if (taskDetails.status == 2) {
       return "Rejected";
-    } else {
+    } else if (taskDetails.status == 3) {
+      return "Rescheduled";
+    }
+    else {
       return "Status Unknown";
     }
   }
@@ -832,6 +835,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (taskItem.status == 2) {
       return 'assets/images/ic_reject.png';
+    }else if (taskItem.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
     } else {
       return 'assets/images/ic_pending.png';
     }
@@ -844,6 +849,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return 'assets/images/ic_pending.png';
     } else if (report.status == 2) {
       return 'assets/images/ic_reject.png';
+    } else if (report.status == 3) {
+      return 'assets/images/ic_rescheduled.png';
     } else {
       return 'assets/images/ic_pending.png';
     }
@@ -856,6 +863,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       return "Pending";
     } else if (report.status == 2) {
       return "Rejected";
+    } else if (report.status == 3) {
+      return "Rescheduled";
     } else {
       return "Status Unknown";
     }

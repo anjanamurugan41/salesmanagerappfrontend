@@ -23,7 +23,8 @@ import '../task_details_screen.dart';
 import 'ReportFilterScreen.dart';
 
 class ReportsScreen extends StatefulWidget {
-  const ReportsScreen({Key key}) : super(key: key);
+  int user_id;
+  ReportsScreen({Key key,this.user_id}) : super(key: key);
 
   @override
   _ReportsScreenState createState() => _ReportsScreenState();
@@ -291,7 +292,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
   }
 
   void showReportScreen() async {
-    Map<String, dynamic> data = await Get.to(() => ReportGenerateScreen(),
+    Map<String, dynamic> data = await Get.to(() => ReportGenerateScreen(user_id:widget.user_id),
         opaque: false, fullscreenDialog: true);
 
     if (data != null && mounted) {

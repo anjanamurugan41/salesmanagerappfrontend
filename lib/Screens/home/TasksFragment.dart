@@ -283,7 +283,7 @@ class _TasksFragmentState extends State<TasksFragment>
         PopupMenuButton<String>(
           icon: Icon(Icons.tune),
           itemBuilder: (BuildContext context) {
-            return ['Completed', 'Pending', 'Rejected'].map((value) {
+            return ['Completed', 'Pending', 'Rejected','Rescheduled'].map((value) {
               return PopupMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -297,7 +297,7 @@ class _TasksFragmentState extends State<TasksFragment>
               filter = val;
             });
 
-            _allTasksBloc.getAllTasksList(false, filter.toLowerCase(), null);
+            _allTasksBloc.getAllTasksList(false,filter.capitalizeFirst, null);
           },
         ),
       ],

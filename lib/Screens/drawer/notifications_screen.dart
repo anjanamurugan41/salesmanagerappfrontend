@@ -177,7 +177,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     }
   }
 
-  Widget _buildUserWidget(List<UserName> namelist,id) {
+  Widget _buildUserWidget(List<UserNames> namelist,id) {
       if (namelist.length > 0) {
         return Padding(
           padding: const EdgeInsets.all(5.0),

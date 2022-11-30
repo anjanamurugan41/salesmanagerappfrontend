@@ -2,6 +2,7 @@ import 'package:sales_manager_app/Models/AllSalesPersonResponse.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
 import 'package:sales_manager_app/Models/CommonSuccessResponse.dart';
 import 'package:sales_manager_app/Models/TaskDetailResponse.dart';
+import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/ServiceManager/ApiProvider.dart';
 import 'package:sales_manager_app/ServiceManager/RemoteConfig.dart';
 
@@ -39,8 +40,8 @@ class TaskRepository {
         RemoteConfig.getAllReports +
         "?page=${_pageNumber + 1}" +
         "&perPage=$_perPage" +
-        "&from=${startDate ?? ""}" +
-        "&to=${endDate ?? ""}" +
+        // "&from=${startDate ?? ""}" +
+        // "&to=${endDate ?? ""}" +
         "${status != null ? "&status=$status" : ""}" +
         "${salesPerson != null ? "&salesPerson=$salesPerson" : ""}");
     return AllTaskResponse.fromJson(response.data);
@@ -105,11 +106,5 @@ class TaskRepository {
     return AllTaskResponse.fromJson(response.data);
   }
 
-  Future<CommonSuccessResponse> notification(String body) async {
-    final response = await apiProvider
-        .getInstance()
-        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":59});
-    return CommonSuccessResponse.fromJson(response.data);
-  }
 
 }

@@ -1,20 +1,27 @@
-import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:sales_manager_app/Blocs/TaskOperationsBloc.dart';
+import 'package:sales_manager_app/Constants/CommonWidgets.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/EnumValues.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/RoundedLoader.dart';
-import 'package:sales_manager_app/Elements/CommonButton.dart';
 import 'package:sales_manager_app/Models/AllSalesPersonResponse.dart';
+import 'package:sales_manager_app/Models/CommonSuccessResponse.dart';
+import 'package:sales_manager_app/Repositories/CommonInfoRepository.dart';
 import 'package:sales_manager_app/Screens/drawer/sales_person_list_screen.dart';
 import 'package:sales_manager_app/Screens/drawer/showreportscreen.dart';
 import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/app_button.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ReportGenerateScreen extends StatefulWidget {
   @override
@@ -25,8 +32,14 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
   DateTime _dateTimeFrom = DateTime.now();
   DateTime _dateTimeTo = DateTime.now();
   SalesPersonInfo salesPersonReceived;
+  TaskOperationsBloc _taskOperationsBloc;
+  File pdf;
 
   @override
+  void initState() {
+    super.initState();
+    _taskOperationsBloc = TaskOperationsBloc();
+  }
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
@@ -53,7 +66,6 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              //todo change calendar, clock icons
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,6 +81,7 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                                         if (dt != _dateTimeFrom) {
                                           setState(() {
                                             _dateTimeFrom = dt;
+                                            print("fromdate--------$_dateTimeFrom");
                                           });
                                         }
                                       },
@@ -114,6 +127,7 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                                         if (dt != _dateTimeTo) {
                                           setState(() {
                                             _dateTimeTo = dt;
+                                            print("To date---->$_dateTimeTo");
                                           });
                                         }
                                       },
@@ -163,20 +177,33 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                                 : false,
                           ),
                           GestureDetector(
-                            onTap: (){
+                            onTap: ()async{
+                              pdf =
+                              await _taskOperationsBloc.reportGenerate(66,_dateTimeFrom,_dateTimeTo);
+                              // _reportTaskFunction();
+                              // _reportrepository.getpdfofreport();
 
+                              // launchUrlString("http://www.africau.edu/images/default/sample.pdf");
+                              // // var url = 'http://www.africau.edu/images/default/sample.pdf';
+                              // // launch(url, forceWebView: true);
+                              Get.to(ShowReportScreen(pdf: pdf));
                             },
                             child: Container(
                               height: 50.0,
                               width: double.infinity,
+                              decoration: BoxDecoration(
+                                color:Color(buttonBgColor),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
                               margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: CommonButton(
-                                  buttonText: " Generate ",
-                                  bgColorReceived: Color(buttonBgColor),
-                                  borderColorReceived: Color(buttonBgColor),
-                                  textColorReceived: Color(colorCodeWhite),
-                                 buttonHandler: showReport
-                                  ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Download",style: TextStyle(color: Colors.white ),),
+                                  SizedBox(width: 10,),
+                                  Icon(Icons.file_download,color: Colors.white,size: 25,)
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -208,10 +235,32 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
     );
   }
 
-  showReport() {
-    Get.to(ShowReportScreen()
-    );
-  }
+  // void _reportTaskFunction() {
+  //   var resBody = {};
+  //   resBody["salesman_id"] = 66;
+  //   resBody["from_date"] = "${DateHelper.formatDateTime(_dateTimeFrom, 'yyyy-MM-dd')}";
+  //   resBody["to_date"] = "${DateHelper.formatDateTime(_dateTimeTo, 'yyyy-MM-dd')}";
+  //   CommonWidgets().showNetworkProcessingDialog();
+  //   _taskOperationsBloc.reportgenerate(json.encode(resBody))
+  //       .then((value) async {
+  //     Get.back();
+  //     CommonSuccessResponse response = value;
+  //     print("valueeeeee----$value");
+  //     print("response->$response");
+  //     if (response.success) {
+  //       Fluttertoast.showToast(
+  //           msg: response.message ?? "Task Updated successfully");
+  //       Map<String, dynamic> data = Map();
+  //       data.assign('taskUpdated', true);
+  //       Get.back(result: data);
+  //     } else {
+  //       Fluttertoast.showToast(msg: response.message);
+  //     }
+  //   }).catchError((err) {
+  //     Get.back();
+  //     CommonWidgets().showNetworkErrorDialog(err.toString());
+  //   });
+  // }
 
   _buildAddSalesPerson() {
     if (LoginModel().userDetails.role == "admin") {

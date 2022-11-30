@@ -2,19 +2,19 @@ class NotificationResponse {
     bool success;
     int statusCode;
     String message;
-    List<UserName> userName;
+    List<UserNames> userNames;
 
     NotificationResponse(
-        {this.success, this.statusCode, this.message, this.userName});
+        {this.success, this.statusCode, this.message, this.userNames});
 
     NotificationResponse.fromJson(Map<String, dynamic> json) {
         success = json['success'];
         statusCode = json['status_code'];
         message = json['message'];
-        if (json['UserName'] != null) {
-            userName = new List<UserName>();
-            json['UserName'].forEach((v) {
-                userName.add(new UserName.fromJson(v));
+        if (json['user_names'] != null) {
+            userNames = <UserNames>[];
+            json['user_names'].forEach((v) {
+                userNames.add(new UserNames.fromJson(v));
             });
         }
     }
@@ -24,23 +24,23 @@ class NotificationResponse {
         data['success'] = this.success;
         data['status_code'] = this.statusCode;
         data['message'] = this.message;
-        if (this.userName != null) {
-            data['UserName'] = this.userName.map((v) => v.toJson()).toList();
+        if (this.userNames != null) {
+            data['user_names'] = this.userNames.map((v) => v.toJson()).toList();
         }
         return data;
     }
 }
 
-class UserName {
+class UserNames {
     String name;
     int userId;
     String image;
     String title;
     String time;
 
-    UserName({this.name, this.userId, this.image, this.title, this.time});
+    UserNames({this.name, this.userId, this.image, this.title, this.time});
 
-    UserName.fromJson(Map<String, dynamic> json) {
+    UserNames.fromJson(Map<String, dynamic> json) {
         name = json['name'];
         userId = json['user_id'];
         image = json['image'];

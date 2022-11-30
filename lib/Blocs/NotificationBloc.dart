@@ -102,24 +102,24 @@ class NotificationBloc{
     _repostiory = NotificationRepository();
     _notificationController = StreamController<ApiResponse<NotificationResponse>>();
   }
-  List<UserName> nameslist = [];
+  List<UserNames> nameslist = [];
 
   getNotification(int id) async {
 
     notificationSink.add(ApiResponse.loading('Fetching Notification'));
     try {
       NotificationResponse _notificationresponse = await _repostiory.getNotifications(id);
-      print("_notificationresponse->.${_notificationresponse.userName}");
+      print("_notificationresponse->.${_notificationresponse.userNames}");
 
       if(_notificationresponse.success){
       if (nameslist.length == 0) {
-        nameslist = _notificationresponse.userName;
+        nameslist = _notificationresponse.userNames;
         print("list->.${nameslist}");
       } else {
-        nameslist.addAll(_notificationresponse.userName);
+        nameslist.addAll(_notificationresponse.userNames);
       }}
      else {
-    nameslist = _notificationresponse.userName;
+    nameslist = _notificationresponse.userNames;
     }
     notificationSink.add(ApiResponse.completed(_notificationresponse));
     } catch (error) {

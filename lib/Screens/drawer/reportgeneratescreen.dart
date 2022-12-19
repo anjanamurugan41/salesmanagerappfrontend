@@ -20,8 +20,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/app_button.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
 
 class ReportGenerateScreen extends StatefulWidget {
   int user_id;
@@ -43,6 +42,7 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
     _taskOperationsBloc = TaskOperationsBloc();
   }
   Widget build(BuildContext context) {
+    print(widget.user_id);
     return SafeArea(
       child: WillPopScope(
         onWillPop: null,

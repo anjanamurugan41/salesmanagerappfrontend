@@ -292,6 +292,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
   }
 
   void showReportScreen() async {
+    print(widget.user_id);
     Map<String, dynamic> data = await Get.to(() => ReportGenerateScreen(user_id:widget.user_id),
         opaque: false, fullscreenDialog: true);
 

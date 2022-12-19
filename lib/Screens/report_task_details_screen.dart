@@ -767,7 +767,10 @@ class _ReportTaskDetailsScreenState extends State<ReportTaskDetailsScreen> {
       return "Pending";
     } else if (taskDetails.status == 2) {
       return "Rejected";
-    } else {
+    } else if (taskDetails.status == 3) {
+      return "Rescheduled";
+    }
+    else {
       return "Status Unknown";
     }
   }

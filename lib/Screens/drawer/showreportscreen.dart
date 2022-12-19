@@ -26,7 +26,7 @@ class _ShowReportScreenState extends State<ShowReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.pdf.path);
+ //   print(widget.pdf.path);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(

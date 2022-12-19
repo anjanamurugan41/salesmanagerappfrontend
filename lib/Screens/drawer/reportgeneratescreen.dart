@@ -180,6 +180,11 @@ class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
                           ),
                           GestureDetector(
                             onTap: ()async{
+                              if (LoginModel().userDetails.role == "admin") {
+                                pdf =
+                                await _taskOperationsBloc.reportGenerate(salesPersonReceived.id,_dateTimeFrom,_dateTimeTo);
+                              }
+                              else
                               pdf =
                               await _taskOperationsBloc.reportGenerate(widget.user_id,_dateTimeFrom,_dateTimeTo);
                               // _reportTaskFunction();

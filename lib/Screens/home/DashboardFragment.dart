@@ -143,8 +143,8 @@ class _DashboardFragmentState extends State<DashboardFragment>
                               ],
                             ),
                             Text(
-                              'Pending Tasks',
-                              maxLines: 1,
+                              'Pending \nTasks',
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontSize: 14,
@@ -190,8 +190,8 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                 Icon(Icons.arrow_forward),
                               ],
                             ),
-                            Text('Rejected Tasks',
-                                maxLines: 1,
+                            Text('Rejected \nTasks',
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 14,

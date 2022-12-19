@@ -10,7 +10,10 @@
 
    <application
         android:label="ExSales"
-        android:icon="@mipmap/app_icon">
+        android:icon="@mipmap/app_icon"
+       android:requestLegacyExternalStorage="true"
+       >
+
 
        <provider
            android:name="androidx.core.content.FileProvider"

@@ -367,6 +367,9 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
               ),
               flex: 1,
             ),
+            IconButton(onPressed: (){
+
+            }, icon: Icon(Icons.delete_outline,color: Colors.red[400],))
           ],
         ),
       ),

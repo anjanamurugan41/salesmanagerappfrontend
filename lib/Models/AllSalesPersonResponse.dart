@@ -43,30 +43,32 @@ class AllSalesPersonResponse {
     return data;
   }
 }
-
 class SalesPersonInfo {
   int id;
   String name;
   String email;
   String phone;
+  int isActive;
   int createdBy;
   String role;
-  String image;
+  Null image;
 
   SalesPersonInfo(
       {this.id,
-      this.name,
-      this.email,
-      this.phone,
-      this.createdBy,
-      this.role,
-      this.image});
+        this.name,
+        this.email,
+        this.phone,
+        this.isActive,
+        this.createdBy,
+        this.role,
+        this.image});
 
   SalesPersonInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
+    isActive = json['is_active'];
     createdBy = json['created_by'];
     role = json['role'];
     image = json['image'];
@@ -78,6 +80,7 @@ class SalesPersonInfo {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
+    data['is_active'] = this.isActive;
     data['created_by'] = this.createdBy;
     data['role'] = this.role;
     data['image'] = this.image;

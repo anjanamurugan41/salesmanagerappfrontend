@@ -367,9 +367,14 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
               ),
               flex: 1,
             ),
-            IconButton(onPressed: (){
-
-            }, icon: Icon(Icons.delete_outline,color: Colors.red[400],))
+            salesPersonInfo.isActive == 1 ?
+           Text("Active",style: TextStyle(color:Color(buttonBgColor),fontSize: 13 ,
+               fontWeight: FontWeight.w500),):
+            Text("Inactive",style: TextStyle(color:Colors.red,fontSize: 13 ,
+                fontWeight: FontWeight.w500),),
+            // IconButton(onPressed: (){
+            //
+            // }, icon: Icon(Icons.delete_outline,color: Colors.red[400],))
           ],
         ),
       ),

@@ -198,6 +198,12 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
                     color: Colors.black87,
                   ),
                   title: Text('${salesPersonInfo.personalInfo.email}'),
+                  trailing: AppButton.elevated(
+                    text: 'Email',
+                    onTap: () {
+                      launch('mailto:${salesPersonInfo.personalInfo.email}');
+                    },
+                  ),
                 ),
               ],
             ),

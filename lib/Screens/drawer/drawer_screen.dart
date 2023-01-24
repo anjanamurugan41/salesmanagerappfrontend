@@ -10,6 +10,7 @@ import 'package:sales_manager_app/Constants/EnumValues.dart';
 import 'package:sales_manager_app/CustomLibraries/CustomLoader/RoundedLoader.dart';
 import 'package:sales_manager_app/Models/UserDetails.dart';
 import 'package:sales_manager_app/Screens/drawer/profile/CalendarPage2.dart';
+import 'package:sales_manager_app/Screens/drawer/profile/sales_person_to_person_list.dart';
 import 'package:sales_manager_app/Screens/home/home_screen.dart';
 import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/widgets/app_icon.dart';
@@ -169,9 +170,20 @@ class DrawerScreen extends StatelessWidget {
                             ? true
                             : false,
                       ),
-                      drawerItem(context, 6, "My Profile",
+                      Visibility(
+                        child: drawerItem(
+                            context,
+                            6,
+                            "Sales Persons",
+                            AssetImage(
+                                'assets/images/ic_nav_sales_person.png')),
+                        visible: LoginModel().userDetails.role == "salesman"
+                            ? true
+                            : false,
+                      ),
+                      drawerItem(context, 7, "My Profile",
                           AssetImage('assets/images/ic_nav_profile.png')),
-                      drawerItem(context, 7, "Logout",
+                      drawerItem(context, 8, "Logout",
                           AssetImage('assets/images/ic_nav_logout.png')),
                       SizedBox(
                         height: 20,
@@ -255,10 +267,18 @@ class DrawerScreen extends StatelessWidget {
                   isToSelectPerson: false,
                   fromPage: FromPage.DrawerPage,
                 ));
-          } else if (type == 6) {
+          }
+          else if (type == 6&& LoginModel().userDetails.role == "salesman") {
+            // Sales person
+            Get.off(() => SalesPersonToPerson(
+              isToSelectPerson: false,
+              fromPage: FromPage.DrawerPage,
+            ));
+          }
+          else if (type == 7) {
             // Profile
             Get.off(() => ProfileScreen());
-          } else if (type == 7) {
+          } else if (type == 8) {
             // logout
             CommonWidgets().showCommonDialog(
                 "Are you sure you want to Log out?",

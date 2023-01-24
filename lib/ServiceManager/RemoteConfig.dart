@@ -15,6 +15,7 @@ class RemoteConfig {
   static const getAllTasks = "alltask";
   static const getAllReports = "alltask";
   static const getAllSalesPersons = "getAllsalesman";
+  static const getAllSalesPersonToPersons = "salesmen/list";
   static const getAutoCompleteSearch = "search";
   static const getSalesPersonInfo = "salesmanByid";
   static const getTaskDetail = "onetask";
@@ -27,4 +28,5 @@ class RemoteConfig {
   static const getMonthWiseReport = "monthsearch";
   static const getNotifications = "get/task/creator";
   static const getpdfofreport="task/generate/report";
+  static const getstatus = "salesman/update/active-status";
 }

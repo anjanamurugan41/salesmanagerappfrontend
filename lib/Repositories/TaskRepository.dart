@@ -1,3 +1,7 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sales_manager_app/Models/AllSalesPersonResponse.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
 import 'package:sales_manager_app/Models/CommonSuccessResponse.dart';
@@ -32,6 +36,16 @@ class TaskRepository {
         "&perPage=" +
         "$_perPage");
     return AllSalesPersonResponse.fromJson(response.data);
+  }
+  Future<SalesPersonToPersonModel> getSalesPersonsToPersons(
+
+      int _pageNumber, int _perPage) async {
+    var body ={};
+    body["page"] = _pageNumber + 1;
+    body["per_page"] = _perPage;
+    final response = await apiProvider.getInstance().post(RemoteConfig.baseUrl +
+        RemoteConfig.getAllSalesPersonToPersons ,data: body);
+    return SalesPersonToPersonModel.fromJson(response.data);
   }
 
   Future<AllTaskResponse> getAllReports(int _pageNumber, int _perPage,
@@ -72,6 +86,18 @@ class TaskRepository {
     final response = await apiProvider
         .getInstance()
         .post(RemoteConfig.baseUrl + RemoteConfig.deleteTask + "/$taskId");
+    return CommonSuccessResponse.fromJson(response.data);
+  }
+  Future<CommonSuccessResponse> getStataus(int Id, status) async {
+    var resBody = {};
+    resBody["salesman_id"] = Id;
+    resBody["is_active"] =status;
+    final response = await apiProvider
+        .getInstance()
+        .post(RemoteConfig.baseUrl + RemoteConfig.getstatus,data: resBody);
+   if(response.statusCode== 200){
+     Get.back();
+   }
     return CommonSuccessResponse.fromJson(response.data);
   }
 

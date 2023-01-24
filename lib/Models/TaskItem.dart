@@ -6,6 +6,7 @@ class TaskItem {
   String time;
   String clientname;
   String description;
+  String task_created;
   int status;
   String address;
 
@@ -18,7 +19,7 @@ class TaskItem {
         this.clientname,
         this.description,
         this.status,
-        this.address});
+        this.address,this.task_created});
 
   TaskItem.fromJson(Map<String, dynamic> json) {
     taskid = json['taskid'];
@@ -30,6 +31,7 @@ class TaskItem {
     description = json['description'];
     status = json['status'] ?? -1;
     address = json['address'];
+    task_created = json['task_created'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +45,7 @@ class TaskItem {
     data['description'] = this.description;
     data['status'] = this.status;
     data['address'] = this.address;
+    data['task_created'] = this.task_created;
     return data;
   }
 }

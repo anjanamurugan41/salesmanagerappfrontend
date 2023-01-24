@@ -46,7 +46,7 @@ class TaskListItem extends StatelessWidget {
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'Assigned on',
+                        'Assigned by  ${taskItem.task_created}',
                         style: TextStyle(
                             fontSize: 13,
                             color: Colors.black45,

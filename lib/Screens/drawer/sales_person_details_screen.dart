@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sales_manager_app/Blocs/SalesPersonDetailBloc.dart';
 import 'package:sales_manager_app/Elements/CommonApiErrorWidget.dart';
 import 'package:sales_manager_app/Elements/CommonApiLoader.dart';
@@ -16,6 +17,7 @@ import 'package:sales_manager_app/widgets/app_button.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Repositories/TaskRepository.dart';
 import 'my_tasks_screen.dart';
 
 class SalesPersonDetailsScreen extends StatefulWidget {
@@ -61,7 +63,7 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
       _salesPersonDetailBloc.getSalesPersonInfo(widget?.salesPersonId);
     }
   }
-
+  TaskRepository statusRetun = TaskRepository();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -227,6 +229,10 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
               viewAllTasks();
             },
           ),
+          ElevatedButton(
+            child: Text('You can change the status of Sales Person'),
+            onPressed: () => _onAlertButtonsPressed(context,salesPersonInfo.personalInfo.id),
+          ),
         ],
       );
     } else {
@@ -258,5 +264,38 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
         isToRefreshInfo = true;
       }
     }
+  }
+  _onAlertButtonsPressed(context,int id) {
+
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "Are You Sure",
+      desc: "Change the Status",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Active",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () { statusRetun.getStataus(id,1);
+
+          },
+
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+        DialogButton(
+          child: Text(
+            "InActive",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => { statusRetun.getStataus(id,0)},
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0),
+          ]),
+        )
+      ],
+    ).show();
   }
 }

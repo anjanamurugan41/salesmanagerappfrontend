@@ -4,8 +4,9 @@ class PersonalInfo {
   String phone;
   String email;
   int id;
+  int is_active;
 
-  PersonalInfo({this.name, this.image, this.phone, this.email, this.id});
+  PersonalInfo({this.name, this.image, this.phone, this.email, this.id,this.is_active});
 
   PersonalInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -13,6 +14,7 @@ class PersonalInfo {
     phone = json['phone'];
     email = json['email'];
     id = json['id'];
+    is_active = json['is_active'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class PersonalInfo {
     data['phone'] = this.phone;
     data['email'] = this.email;
     data['id'] = this.id;
+    data['is_active'] = this.is_active;
     return data;
   }
 }

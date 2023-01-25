@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:sales_manager_app/Constants/CommonMethods.dart';
 import 'package:sales_manager_app/Interfaces/LoadMoreListener.dart';
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
-import 'package:sales_manager_app/Models/TaskItem.dart';
+
 import 'package:sales_manager_app/Repositories/TaskRepository.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
+
+import '../Models/DummyModels/1.dart';
 
 class ReportsListBloc {
   bool hasNextPage = false;
@@ -22,7 +24,7 @@ class ReportsListBloc {
   Stream<ApiResponse<AllTaskResponse>> get tasksStream =>
       _tasksController.stream;
 
-  List<TaskItem> tasksList = [];
+  List<Todaytask> tasksList = [];
 
   LoadMoreListener _listener;
 
@@ -53,13 +55,13 @@ class ReportsListBloc {
       }
       if (isPagination) {
         if (tasksList.length == 0) {
-          tasksList = tasksResponse.taskItemsList;
+          tasksList = tasksResponse.data;
           print("tasklist->$tasksList");
         } else {
-          tasksList.addAll(tasksResponse.taskItemsList);
+          tasksList.addAll(tasksResponse.data);
         }
       } else {
-        tasksList = tasksResponse.taskItemsList;
+        tasksList = tasksResponse.data;
       }
       employeeListSink.add(ApiResponse.completed(tasksResponse));
       if (isPagination) {

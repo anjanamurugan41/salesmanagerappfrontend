@@ -86,7 +86,59 @@ import 'package:sales_manager_app/Models/NotificationResponse.dart';
 import 'package:sales_manager_app/Repositories/NotificationRepository.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 
-class NotificationBloc{
+// class NotificationBloc{
+//   NotificationRepository _repostiory;
+//
+//
+//   StreamController _notificationController;
+//
+//   StreamSink<ApiResponse<NotificationResponse>> get notificationSink =>
+//       _notificationController.sink;
+//
+//   Stream<ApiResponse<NotificationResponse>> get notificationStream =>
+//       _notificationController.stream;
+//
+//   NotificationBloc() {
+//     _repostiory = NotificationRepository();
+//     _notificationController = StreamController<ApiResponse<NotificationResponse>>();
+//   }
+//   List<Notifications> nameslist = [];
+//
+//   getNotification() async {
+//
+//     notificationSink.add(ApiResponse.loading('Fetching Notification'));
+//     try {
+//       NotificationResponse _notificationresponse = await _repostiory.getNotifications(id);
+//       print("_notificationresponse->.${_notificationresponse.notifications}");
+//
+//       if(_notificationresponse.success){
+//       if (nameslist.length == 0) {
+//         nameslist = _notificationresponse.notifications;
+//         print("list->.${nameslist}");
+//       } else {
+//         nameslist.addAll(_notificationresponse.notifications);
+//       }}
+//      else {
+//     nameslist = _notificationresponse.notifications;
+//     }
+//     notificationSink.add(ApiResponse.completed(_notificationresponse));
+//     } catch (error) {
+//       print("****");
+//       print(error.toString());
+//       print("****");
+//       notificationSink.add(ApiResponse.error(CommonMethods().getNetworkError(error)));
+//     }
+//   }
+//   dispose() {
+//     notificationSink?.close();
+//     _notificationController?.close();
+//   }
+// }
+class NotificationBloc {
+  bool hasNextPage = false;
+  int pageNumber = 0;
+  int perPage = 20;
+  List<Notifications> memberItemsList = [];
   NotificationRepository _repostiory;
 
 
@@ -98,39 +150,60 @@ class NotificationBloc{
   Stream<ApiResponse<NotificationResponse>> get notificationStream =>
       _notificationController.stream;
 
-  NotificationBloc() {
+  LoadMoreListener _listener;
+
+
+  NotificationBloc(this._listener) {
+    _notificationController =
+        StreamController<ApiResponse<NotificationResponse>>();
     _repostiory = NotificationRepository();
-    _notificationController = StreamController<ApiResponse<NotificationResponse>>();
   }
-  List<UserNames> nameslist = [];
 
-  getNotification(int id) async {
-
-    notificationSink.add(ApiResponse.loading('Fetching Notification'));
+  getNotification(bool isPagination) async {
+    if (isPagination) {
+      _listener.refresh(true);
+    } else {
+      pageNumber = 0;
+      notificationSink.add(ApiResponse.loading('Fetching Members'));
+    }
     try {
-      NotificationResponse _notificationresponse = await _repostiory.getNotifications(id);
-      print("_notificationresponse->.${_notificationresponse.userNames}");
-
-      if(_notificationresponse.success){
-      if (nameslist.length == 0) {
-        nameslist = _notificationresponse.userNames;
-        print("list->.${nameslist}");
+      NotificationResponse response =
+      await _repostiory.getNotifications(pageNumber, perPage);
+      if (response.pagination != null) {
+        if (response.pagination.hasNextPage != null) {
+          hasNextPage = response.pagination.hasNextPage;
+        }
+        if (response.pagination.page != null) {
+          pageNumber = response.pagination.page;
+        }
+      }
+      if (isPagination) {
+        if (memberItemsList.length == 0) {
+          memberItemsList = response.notifications;
+        } else {
+          memberItemsList.addAll(response.notifications);
+        }
       } else {
-        nameslist.addAll(_notificationresponse.userNames);
-      }}
-     else {
-    nameslist = _notificationresponse.userNames;
-    }
-    notificationSink.add(ApiResponse.completed(_notificationresponse));
+        memberItemsList = response.notifications;
+      }
+      notificationSink.add(ApiResponse.completed(response));
+      if (isPagination) {
+        _listener.refresh(false);
+      }
     } catch (error) {
-      print("****");
-      print(error.toString());
-      print("****");
-      notificationSink.add(ApiResponse.error(CommonMethods().getNetworkError(error)));
+      if (isPagination) {
+        _listener.refresh(false);
+      } else {
+        notificationSink
+            .add(ApiResponse.error(CommonMethods().getNetworkError(error)));
+      }
     }
   }
+
   dispose() {
-    notificationSink?.close();
     _notificationController?.close();
+    notificationSink?.close();
   }
+
+
 }

@@ -233,18 +233,18 @@ class _SalesPersonToPersonState extends State<SalesPersonToPerson>    with LoadM
             itemCount: membersList.length,
             controller: _itemsController,
             itemBuilder: (context, index) {
-         return AppCard(
+         return AppCard(onTap: (){
+           Get.to(() =>  SalesPersonDetailsScreen(
+             salesPersonId: membersList[index].id,
+             fromPage: FromPage.SalesPersonsList,
+           ));
+         },
            child: Container(
              color: Colors.transparent,
              margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
              padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
              child: ListTile(
-onTap: (){
-  SalesPersonDetailsScreen(
-    salesPersonId: membersList[index].id,
-    fromPage: FromPage.SalesPersonsList,
-  );
-},
+
 
                  title: Row(
                    mainAxisAlignment: MainAxisAlignment.center,

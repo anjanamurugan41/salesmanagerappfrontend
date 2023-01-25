@@ -11,11 +11,11 @@ class NotificationRepository {
     apiProvider = new ApiProvider();
   }
 
-  Future<NotificationResponse> getNotifications(id) async {
+  Future<NotificationResponse> getNotifications(int page ,perpage) async {
 
     final response = await apiProvider
         .getInstance()
-        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":id});
+        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"page":1,"per_page":20});
 
     Map apiResponse = response.data;
     print("user_id->>>$apiResponse");

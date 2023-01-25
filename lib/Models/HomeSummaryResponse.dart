@@ -1,12 +1,13 @@
-import 'TaskItem.dart';
+import 'DummyModels/1.dart';
+
 
 class HomeSummaryResponse {
   int status;
   String message;
   bool success;
   String date;
-  CountsInfo countsInfo;
-  List<TaskItem> todaysTask;
+  CountsInfo data;
+  List<Todaytask> todaytask;
   int todaysCount;
 
   HomeSummaryResponse(
@@ -14,8 +15,8 @@ class HomeSummaryResponse {
         this.message,
         this.success,
         this.date,
-        this.countsInfo,
-        this.todaysTask,
+        this.data,
+        this.todaytask,
         this.todaysCount});
 
   HomeSummaryResponse.fromJson(Map<String, dynamic> json) {
@@ -23,13 +24,13 @@ class HomeSummaryResponse {
     message = json['message'];
     success = json['success'];
     date = json['date'];
-    countsInfo = json['data'] != null
+    data = json['data'] != null
         ? new CountsInfo.fromJson(json['data'])
         : null;
     if (json['todaytask'] != null) {
-      todaysTask = [];
+      todaytask = [];
       json['todaytask'].forEach((v) {
-        todaysTask.add(new TaskItem.fromJson(v));
+        todaytask.add(new Todaytask.fromJson(v));
       });
     }
     todaysCount = json['todaysCount'];
@@ -41,11 +42,11 @@ class HomeSummaryResponse {
     data['message'] = this.message;
     data['success'] = this.success;
     data['date'] = this.date;
-    if (this.countsInfo != null) {
-      data['data'] = this.countsInfo.toJson();
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
     }
-    if (this.todaysTask != null) {
-      data['todaytask'] = this.todaysTask.map((v) => v.toJson()).toList();
+    if (this.todaytask != null) {
+      data['todaytask'] = this.todaytask.map((v) => v.toJson()).toList();
     }
     data['todaysCount'] = this.todaysCount;
     return data;

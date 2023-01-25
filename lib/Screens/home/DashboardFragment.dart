@@ -6,8 +6,9 @@ import 'package:sales_manager_app/Constants/CommonMethods.dart';
 import 'package:sales_manager_app/Elements/CommonApiErrorWidget.dart';
 import 'package:sales_manager_app/Elements/CommonApiLoader.dart';
 import 'package:sales_manager_app/Interfaces/RefreshPageListener.dart';
+import 'package:sales_manager_app/Models/DummyModels/1.dart';
 import 'package:sales_manager_app/Models/HomeSummaryResponse.dart';
-import 'package:sales_manager_app/Models/TaskItem.dart';
+//import 'package:sales_manager_app/Models/TaskItem.dart';
 import 'package:sales_manager_app/Screens/drawer/my_tasks_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/Utilities/app_helper.dart';
@@ -153,7 +154,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                   fontWeight: FontWeight.w600),
                             ),
                             Text(
-                              '${homeResponse.countsInfo.pending == 1 ? "${homeResponse.countsInfo.pending} Task" : "${homeResponse.countsInfo.pending} Tasks"}',
+                              '${homeResponse.data.pending == 1 ? "${homeResponse.data.pending} Task" : "${homeResponse.data.pending} Tasks"}',
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black45,
@@ -199,7 +200,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.w600)),
                             Text(
-                              '${homeResponse.countsInfo.rejected == 1 ? "${homeResponse.countsInfo.rejected} Task" : "${homeResponse.countsInfo.rejected} Tasks"}',
+                              '${homeResponse.data.rejected == 1 ? "${homeResponse.data.rejected} Task" : "${homeResponse.data.rejected} Tasks"}',
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black45,
@@ -251,7 +252,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.w600)),
                             Text(
-                              '${homeResponse.countsInfo.completed == 1 ? "${homeResponse.countsInfo.completed} Task" : "${homeResponse.countsInfo.completed} Tasks"}',
+                              '${homeResponse.data.completed == 1 ? "${homeResponse.data.completed} Task" : "${homeResponse.data.completed} Tasks"}',
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black45,
@@ -297,7 +298,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.w600)),
                             Text(
-                              '${homeResponse.countsInfo.rescheduled == 1 ? "${homeResponse.countsInfo.rescheduled} Task" : "${homeResponse.countsInfo.rescheduled} Tasks"}',
+                              '${homeResponse.data.rescheduled == 1 ? "${homeResponse.data.rescheduled} Task" : "${homeResponse.data.rescheduled} Tasks"}',
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black45,
@@ -325,8 +326,8 @@ class _DashboardFragmentState extends State<DashboardFragment>
   }
 
   _buildTasksSection(HomeSummaryResponse homeResponse) {
-    if (homeResponse.todaysTask != null) {
-      if (homeResponse.todaysTask.length > 0) {
+    if (homeResponse.todaytask != null) {
+      if (homeResponse.todaytask.length > 0) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -353,9 +354,9 @@ class _DashboardFragmentState extends State<DashboardFragment>
               padding: EdgeInsets.only(bottom: 20),
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: homeResponse.todaysTask.length,
+              itemCount: homeResponse.todaytask.length,
               itemBuilder: (context, index) {
-                TaskItem taskItemToPass = homeResponse.todaysTask[index];
+                Todaytask taskItemToPass = homeResponse.todaytask[index];
                 return TaskListItem(
                   taskItem: taskItemToPass,
                   onTap: () {
@@ -381,7 +382,7 @@ class _DashboardFragmentState extends State<DashboardFragment>
     }
   }
 
-  void viewTaskDetail(TaskItem taskItemToPass) async {
+  void viewTaskDetail(Todaytask taskItemToPass) async {
     Map<String, dynamic> data =
         await Get.to(() => TaskDetailsScreen(taskId: taskItemToPass.taskid));
 

@@ -72,7 +72,7 @@ class CommonInfoRepository {
     final response = await apiProvider
         .getInstance()
         .get(RemoteConfig.baseUrl + RemoteConfig.getHomeInfo);
-
+print("->${response}");
     return HomeSummaryResponse.fromJson(response.data);
   }
 
@@ -94,6 +94,7 @@ class CommonInfoRepository {
   Future<SalesPersonModel> getSalesPersonInfo(int memberId) async {
     final response = await apiProvider.getInstance().get(
         RemoteConfig.baseUrl + RemoteConfig.getSalesPersonInfo + "/$memberId");
+    print("=>${response}");
     return SalesPersonModel.fromJson(response.data);
   }
 

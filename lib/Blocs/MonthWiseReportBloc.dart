@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:sales_manager_app/Models/AllTaskResponse.dart';
-import 'package:sales_manager_app/Models/TaskItem.dart';
+
 import 'package:sales_manager_app/Repositories/TaskRepository.dart';
 
 import '../Constants/CommonMethods.dart';
+import '../Models/DummyModels/1.dart';
 import '../ServiceManager/ApiResponse.dart';
 
 class MonthWiseReportBloc {
@@ -18,7 +19,7 @@ class MonthWiseReportBloc {
   Stream<ApiResponse<AllTaskResponse>> get tasksStream =>
       _tasksController.stream;
 
-  List<TaskItem> tasksList = [];
+  List<Todaytask> tasksList = [];
   List<DateTime> presentDates = [];
 
   MonthWiseReportBloc() {
@@ -34,7 +35,7 @@ class MonthWiseReportBloc {
       AllTaskResponse tasksResponse =
           await tasksRepository.getMonthReport(month, year, salesManId);
       if (tasksResponse.success) {
-        tasksList = tasksResponse.taskItemsList;
+        tasksList = tasksResponse.data;
         for (var task in tasksList) {
           if (task.date != null) {
             presentDates.add(DateTime.parse(task.date));

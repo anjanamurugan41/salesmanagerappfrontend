@@ -8,11 +8,11 @@ import 'package:sales_manager_app/Elements/CommonApiLoader.dart';
 import 'package:sales_manager_app/Elements/CommonApiResultsEmptyWidget.dart';
 import 'package:sales_manager_app/Elements/CommonAppBar.dart';
 import 'package:sales_manager_app/Interfaces/LoadMoreListener.dart';
-import 'package:sales_manager_app/Models/AllTaskResponse.dart';
-import 'package:sales_manager_app/Models/TaskItem.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/widgets/task_list_item.dart';
 
+import '../../Models/AllTaskResponse.dart';
+import '../../Models/DummyModels/1.dart';
 import '../task_details_screen.dart';
 
 class MyTasksScreen extends StatefulWidget {
@@ -112,7 +112,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> with LoadMoreListener {
                               AllTaskResponse response = snapshot.data.data;
                               print("resp=>$response");
                               return _buildUserWidget(_allTasksBloc.tasksList,
-                                  response.pagination?.totalItemsCount);
+                                  response.pagination?.totalItem);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -166,7 +166,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> with LoadMoreListener {
     }
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount) {
+  Widget _buildUserWidget(List<Todaytask> tasksList, int totalItemsCount) {
     if (tasksList != null) {
       if (tasksList.length > 0) {
         return ListView.builder(
@@ -175,7 +175,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> with LoadMoreListener {
             itemCount: tasksList.length,
             controller: _tasksController,
             itemBuilder: (context, index) {
-              TaskItem taskItemToPass = tasksList[index];
+              Todaytask taskItemToPass = tasksList[index];
               return TaskListItem(
                 taskItem: taskItemToPass,
                 onTap: ()  {
@@ -197,7 +197,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> with LoadMoreListener {
     }
   }
 
-  void viewTaskDetail(TaskItem taskItemToPass) async{
+  void viewTaskDetail(Todaytask taskItemToPass) async{
     Map<String, dynamic> data = await Get.to(() =>
         TaskDetailsScreen(taskId: taskItemToPass.taskid));
     if (data != null && mounted) {

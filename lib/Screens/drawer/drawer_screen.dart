@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:sales_manager_app/Blocs/NotificationBloc.dart';
 import 'package:sales_manager_app/Constants/CommonMethods.dart';
 import 'package:sales_manager_app/Constants/CommonWidgets.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
@@ -24,10 +25,12 @@ import 'reports_screen.dart';
 import 'sales_person_list_screen.dart';
 
 class DrawerScreen extends StatelessWidget {
-   DrawerScreen({Key key,this.id,}) : super(key: key);
+  DrawerScreen({Key key,this.id,this.count}) : super(key: key);
   final int id;
+  final int count;
 
   @override
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -75,7 +78,7 @@ class DrawerScreen extends StatelessWidget {
                               spreadRadius: 3,
                               blurRadius: 4,
                               offset:
-                                  Offset(0, 2), // changes position of shadow
+                              Offset(0, 2), // changes position of shadow
                             )
                           ],
                         ),
@@ -151,8 +154,33 @@ class DrawerScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      drawerItem(context, 1, "Notifications",
+                      Stack(children: [
+                        drawerItem(context, 1, "Notifications",
                           AssetImage('assets/images/ic_nav_notification.png'),),
+                        Positioned(
+                          left: 60,
+                          top: 20,
+                          child:  Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 13,
+                              minHeight: 13,
+                            ),
+                            child: new Text(
+                              "${count}",
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),),
+                      ]
+                      ),
                       drawerItem(context, 2, "Calendar",
                           AssetImage('assets/images/ic_nav_calender.png')),
                       drawerItem(context, 3, "Reports",
@@ -259,14 +287,14 @@ class DrawerScreen extends StatelessWidget {
           } else if (type == 4) {
             // Todays tasks
             Get.off(() => MyTasksScreen(
-                  pageHeading: 'My Tasks',
-                ));
+              pageHeading: 'My Tasks',
+            ));
           } else if (type == 5) {
             // Sales person
             Get.off(() => SalesPersonListScreen(
-                  isToSelectPerson: false,
-                  fromPage: FromPage.DrawerPage,
-                ));
+              isToSelectPerson: false,
+              fromPage: FromPage.DrawerPage,
+            ));
           }
           else if (type == 6&& LoginModel().userDetails.role == "salesman") {
             // Sales person

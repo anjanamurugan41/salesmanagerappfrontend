@@ -16,6 +16,7 @@ import 'package:sales_manager_app/Models/NotificationResponse.dart';
 import 'package:sales_manager_app/Models/TaskItem.dart';
 import 'package:sales_manager_app/Screens/task_details_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
+import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/widgets/notification_list_item.dart';
 
 
@@ -40,15 +41,15 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     super.initState();
     _notificationsController = ScrollController();
     _notificationsController.addListener(_scrollListener);
-    _allNotificationsBloc = NotificationBloc();
-    _allNotificationsBloc.getNotification(widget.user_id);
+    _allNotificationsBloc = NotificationBloc(this);
+    _allNotificationsBloc.getNotification(false);
     print(widget.user_id);
   }
 
   @override
   void dispose() {
     _notificationsController.dispose();
-    _allNotificationsBloc.getNotification(widget.user_id);
+    _allNotificationsBloc.getNotification(true);
     super.dispose();
   }
 
@@ -56,9 +57,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     if (_notificationsController.offset >= _notificationsController.position.maxScrollExtent &&
         !_notificationsController.position.outOfRange) {
       print("reach the bottom");
-      if (_allNotificationsBloc.nameslist.isEmpty) {
+      if (_allNotificationsBloc.memberItemsList.isEmpty) {
         Future.delayed(const Duration(milliseconds: 1000), () {
-          _allNotificationsBloc.getNotification(widget.user_id);
+          _allNotificationsBloc.getNotification(true);
         });
       }
     }
@@ -70,7 +71,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   void _errorWidgetFunction() {
     if (_allNotificationsBloc != null) {
-      _allNotificationsBloc.getNotification(widget.user_id);
+      _allNotificationsBloc.getNotification(false);
     }
   }
 
@@ -102,7 +103,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   color: Colors.white,
                   backgroundColor: Colors.cyan,
                   onRefresh: () {
-                    return _allNotificationsBloc.getNotification(widget.user_id);
+                    return _allNotificationsBloc.getNotification(false);
                   },
                   child: StreamBuilder<ApiResponse<NotificationResponse>>(
                       stream: _allNotificationsBloc.notificationStream,
@@ -113,7 +114,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               return CommonApiLoader();
                               break;
                             case Status.COMPLETED:
-                              return _allNotificationsBloc.nameslist ==null
+                              return _allNotificationsBloc.memberItemsList ==null
                                   ? SizedBox(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,7 +125,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                   ],
                                 )
                               )
-                                  : _buildUserWidget(_allNotificationsBloc.nameslist,widget.user_id);
+                                  : _buildUserWidget(_allNotificationsBloc.memberItemsList,widget.user_id);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -177,10 +178,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     }
   }
 
-  Widget _buildUserWidget(List<UserNames> namelist,id) {
-    print("====>Length-->${namelist.length}");
+  Widget _buildUserWidget(List<Notifications> namelist,id) {
+
       if (namelist.length > 0) {
-        return Padding(
+        return LoginModel().userDetails.role =="salesman"?Padding(
           padding: const EdgeInsets.all(5.0),
           child: ListView.separated(
               separatorBuilder: (context, index) => Divider(
@@ -192,9 +193,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
               controller: _notificationsController,
               itemBuilder: (context, index) {
                 return NotificationListItem(
-                  names: namelist[index].name,
-                  title: namelist[index].title,
-                  image: namelist[index].image,
+                  names: namelist[index].data.name,
+                  title: namelist[index].data.task_title,
+                 type: namelist[index].data.type,
                   time: namelist[index].time,
                   id: id,
                   onTap: ()  {
@@ -202,7 +203,27 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   },
                 );
               }),
-        );
+        ): ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.black,
+            ),
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
+            itemCount: namelist.length,
+            controller: _notificationsController,
+            itemBuilder: (context, index) {
+              return NotificationListItem(
+                names: namelist[index].data.name,
+                title: namelist[index].data.task_title,
+                type: namelist[index].data.type,
+                time: namelist[index].time,
+                id: id,
+                onTap: ()  {
+                  // viewTaskNotDetail(taskItemToPass);
+                },
+              );
+            });
+
       } else {
         return SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),

@@ -19,6 +19,7 @@ import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/task_list_item.dart';
 
+import '../../Models/DummyModels/1.dart';
 import '../task_details_screen.dart';
 import 'ReportFilterScreen.dart';
 
@@ -215,7 +216,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
     );
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList) {
+  Widget _buildUserWidget(List<Todaytask> tasksList) {
     if (tasksList != null) {
       if (tasksList.length > 0) {
         return ListView.builder(
@@ -224,7 +225,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
             itemCount: tasksList.length,
             controller: _tasksController,
             itemBuilder: (context, index) {
-              TaskItem taskItemToPass = tasksList[index];
+              Todaytask taskItemToPass = tasksList[index];
               return TaskListItem(
                 taskItem: taskItemToPass,
                 onTap: () {
@@ -327,7 +328,7 @@ class _ReportsScreenState extends State<ReportsScreen> with LoadMoreListener {
     }
   }
 
-  void viewTaskDetail(TaskItem taskItemToPass) async {
+  void viewTaskDetail(Todaytask taskItemToPass) async {
     Map<String, dynamic> data =
         await Get.to(() => ReportTaskDetailsScreen(taskId: taskItemToPass.taskid));
 

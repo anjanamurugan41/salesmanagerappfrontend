@@ -17,6 +17,7 @@ import 'package:sales_manager_app/Models/TaskItem.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/widgets/task_list_item.dart';
 
+import '../../Models/DummyModels/1.dart';
 import '../task_details_screen.dart';
 
 class TasksFragment extends StatefulWidget {
@@ -100,8 +101,9 @@ class _TasksFragmentState extends State<TasksFragment>
                           break;
                         case Status.COMPLETED:
                           AllTaskResponse response = snapshot.data.data;
+                          print("0>${response}");
                           return _buildUserWidget(_allTasksBloc.tasksList,
-                              response.pagination?.totalItemsCount);
+                              response.pagination?.totalItem);
                           break;
                         case Status.ERROR:
                           return CommonApiErrorWidget(
@@ -152,7 +154,8 @@ class _TasksFragmentState extends State<TasksFragment>
     }
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount) {
+  Widget _buildUserWidget(List<Todaytask> tasksList, int totalItemsCount) {
+    print("tasklist->${tasksList}");
     if (tasksList != null) {
       if (tasksList.length > 0) {
         return Container(
@@ -168,7 +171,7 @@ class _TasksFragmentState extends State<TasksFragment>
                     itemCount: tasksList.length,
                     controller: _tasksController,
                     itemBuilder: (context, index) {
-                      TaskItem taskItemToPass = tasksList[index];
+                      Todaytask taskItemToPass = tasksList[index];
                       return TaskListItem(
                         taskItem: taskItemToPass,
                         onTap: () {
@@ -223,7 +226,7 @@ class _TasksFragmentState extends State<TasksFragment>
     }
   }
 
-  void viewTaskDetail(TaskItem taskItemToPass) async {
+  void viewTaskDetail(Todaytask taskItemToPass) async {
     Map<String, dynamic> data =
         await Get.to(() => TaskDetailsScreen(taskId: taskItemToPass.taskid));
 

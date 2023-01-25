@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Models/TaskItem.dart';
 
+import '../Models/DummyModels/1.dart';
 import 'app_card.dart';
 
 class TaskListItem extends StatelessWidget {
   final VoidCallback onTap;
-  final TaskItem taskItem;
+  final Todaytask taskItem;
 
   const TaskListItem({Key key, @required this.onTap, @required this.taskItem})
       : super(key: key);
@@ -46,7 +47,7 @@ class TaskListItem extends StatelessWidget {
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'Assigned by  ${taskItem.task_created}',
+                        'Assigned by  ${taskItem.taskCreated}',
                         style: TextStyle(
                             fontSize: 13,
                             color: Colors.black45,
@@ -101,7 +102,7 @@ class TaskListItem extends StatelessWidget {
     );
   }
 
-  String getIcon(TaskItem taskItem) {
+  String getIcon(Todaytask taskItem) {
     if (taskItem.status == 0) {
       return 'assets/images/ic_complete.png';
     } else if (taskItem.status == 1) {

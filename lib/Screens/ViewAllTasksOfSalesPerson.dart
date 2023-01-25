@@ -16,6 +16,8 @@ import 'package:sales_manager_app/Screens/task_details_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
 import 'package:sales_manager_app/widgets/task_list_item.dart';
 
+import '../Models/DummyModels/1.dart';
+
 class ViewAllTasksOfSalesPerson extends StatefulWidget {
   int salesPersonId;
 
@@ -137,7 +139,7 @@ class _ViewAllTasksOfSalesPersonState extends State<ViewAllTasksOfSalesPerson>
                             case Status.COMPLETED:
                               AllTaskResponse response = snapshot.data.data;
                               return _buildUserWidget(_allTasksBloc.tasksList,
-                                  response.pagination?.totalItemsCount);
+                                  response.pagination?.totalItem);
                               break;
                             case Status.ERROR:
                               return CommonApiErrorWidget(
@@ -180,7 +182,7 @@ class _ViewAllTasksOfSalesPersonState extends State<ViewAllTasksOfSalesPerson>
     ));
   }
 
-  Widget _buildUserWidget(List<TaskItem> tasksList, int totalItemsCount) {
+  Widget _buildUserWidget(List<Todaytask> tasksList, int totalItemsCount) {
     if (tasksList != null) {
       if (tasksList.length > 0) {
         return ListView.builder(
@@ -189,7 +191,7 @@ class _ViewAllTasksOfSalesPersonState extends State<ViewAllTasksOfSalesPerson>
             itemCount: tasksList.length,
             controller: _tasksController,
             itemBuilder: (context, index) {
-              TaskItem taskItemToPass = tasksList[index];
+              Todaytask taskItemToPass = tasksList[index];
               return TaskListItem(
                 taskItem: taskItemToPass,
                 onTap: () {
@@ -221,7 +223,7 @@ class _ViewAllTasksOfSalesPersonState extends State<ViewAllTasksOfSalesPerson>
     }
   }
 
-  void viewTaskDetail(TaskItem taskItemToPass) async {
+  void viewTaskDetail(Todaytask taskItemToPass) async {
     Map<String, dynamic> data =
         await Get.to(() => TaskDetailsScreen(taskId: taskItemToPass.taskid));
 

@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../Models/NotificationResponse.dart';
 import '../ServiceManager/ApiProvider.dart';
 import '../ServiceManager/RemoteConfig.dart';
-
+int notificationCount=0;
 class NotificationRepository {
   ApiProvider apiProvider;
 
@@ -11,17 +11,18 @@ class NotificationRepository {
     apiProvider = new ApiProvider();
   }
 
-  Future<NotificationResponse> getNotifications(id) async {
+  Future<NotificationResponse> getNotifications(int page ,perpage) async {
 
     final response = await apiProvider
         .getInstance()
-        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"user_id":id});
+        .post(RemoteConfig.baseUrl + RemoteConfig.getNotifications, data: {"page":1,"per_page":20});
 
     Map apiResponse = response.data;
     print("user_id->>>$apiResponse");
 
 
     print("user_id->>>${response.data['UserName']}");
+    notificationCount=response.data['uCount'];
 
     return NotificationResponse.fromJson(response.data);
   }

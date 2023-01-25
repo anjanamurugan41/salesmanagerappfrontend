@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:sales_manager_app/Blocs/NotificationBloc.dart';
 import 'package:sales_manager_app/Constants/CustomColorCodes.dart';
 import 'package:sales_manager_app/Constants/StringConstants.dart';
-import 'package:sales_manager_app/Models/UserDetails.dart';
+import 'package:sales_manager_app/Interfaces/LoadMoreListener.dart';
+import 'package:sales_manager_app/Repositories/NotificationRepository.dart';
 import 'package:sales_manager_app/Utilities/date_helper.dart';
 import 'package:sales_manager_app/widgets/app_icon.dart';
 
@@ -17,17 +19,33 @@ import 'DashboardFragment.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key, this.id}) : super(key: key);
   final int id;
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with LoadMoreListener
+{
+  bool isLoadingMore = false;
   String authToken;
   int user_id;
   int _currentTabIndex = 0;
   DateTime currentBackPressTime;
+  NotificationBloc _allNotificationsBloc;
+  NotificationRepository notifi_api= NotificationRepository();
   @override
+
+  void initState() {
+    super.initState();
+    _allNotificationsBloc = NotificationBloc(this);
+    _allNotificationsBloc.getNotification(false);
+    notifi_api.getNotifications(1, 20);
+  }
+  @override
+  void dispose() {
+    _allNotificationsBloc.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillPop,
@@ -43,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         iconData: CupertinoIcons.square_grid_2x2,
                         onTap: () {
                           Get.to(() => DrawerScreen(
-                            id : widget.id,
+                              id : widget.id,count:notificationCount
                           ),
                               transition: Transition.fadeIn);
                         }),
@@ -168,6 +186,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  refresh(bool isLoading) {
+    if (mounted) {
+      setState(() {
+        isLoadingMore = isLoading;
+      });
+      print(isLoadingMore);
+    }
+  }
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -179,4 +205,5 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return Future.value(true);
   }
+
 }

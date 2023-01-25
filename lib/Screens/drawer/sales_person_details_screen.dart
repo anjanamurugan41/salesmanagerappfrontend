@@ -13,6 +13,7 @@ import 'package:sales_manager_app/Models/SalesPersonModel.dart';
 import 'package:sales_manager_app/Screens/ViewAllTasksOfSalesPerson.dart';
 import 'package:sales_manager_app/Screens/home/home_screen.dart';
 import 'package:sales_manager_app/ServiceManager/ApiResponse.dart';
+import 'package:sales_manager_app/Utilities/LoginModel.dart';
 import 'package:sales_manager_app/widgets/app_button.dart';
 import 'package:sales_manager_app/widgets/app_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,7 +64,9 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
       _salesPersonDetailBloc.getSalesPersonInfo(widget?.salesPersonId);
     }
   }
+
   TaskRepository statusRetun = TaskRepository();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,7 +85,8 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
             color: Colors.white,
             backgroundColor: Colors.green,
             onRefresh: () {
-              return _salesPersonDetailBloc.getSalesPersonInfo(widget?.salesPersonId);
+              return _salesPersonDetailBloc
+                  .getSalesPersonInfo(widget?.salesPersonId);
             },
             child: StreamBuilder<ApiResponse<SalesPersonModel>>(
               stream: _salesPersonDetailBloc.profileStream,
@@ -229,10 +233,22 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
               viewAllTasks();
             },
           ),
-          ElevatedButton(
-            child: Text('You can change the status of Sales Person'),
-            onPressed: () => _onAlertButtonsPressed(context,salesPersonInfo.personalInfo.id),
-          ),
+          LoginModel().userDetails.role == "admin"
+              ? ElevatedButton(
+                  child: Text('You can change the status of Sales Person'),
+                  onPressed: () => _onAlertButtonsPressed(
+                      context, salesPersonInfo.personalInfo.id),
+                )
+              : ElevatedButton(
+                  child: Text(
+                    '${salesPersonInfo.personalInfo.is_active == 1 ? "Active" : "InActive"}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: salesPersonInfo.personalInfo.is_active==1?Colors.green[900]:Colors.grey[900]
+                    ),
+                  ),
+                ),
         ],
       );
     } else {
@@ -265,8 +281,8 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
       }
     }
   }
-  _onAlertButtonsPressed(context,int id) {
 
+  _onAlertButtonsPressed(context, int id) {
     Alert(
       context: context,
       type: AlertType.warning,
@@ -278,10 +294,9 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
             "Active",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
-          onPressed: () { statusRetun.getStataus(id,1);
-
+          onPressed: () {
+            statusRetun.getStataus(id, 1);
           },
-
           color: Color.fromRGBO(0, 179, 134, 1.0),
         ),
         DialogButton(
@@ -289,7 +304,7 @@ class _SalesPersonDetailsScreenState extends State<SalesPersonDetailsScreen> {
             "InActive",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
-          onPressed: () => { statusRetun.getStataus(id,0)},
+          onPressed: () => {statusRetun.getStataus(id, 0)},
           gradient: LinearGradient(colors: [
             Color.fromRGBO(116, 116, 191, 1.0),
             Color.fromRGBO(52, 138, 199, 1.0),

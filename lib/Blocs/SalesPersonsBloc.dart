@@ -12,7 +12,7 @@ class SalesPersonsBloc {
   bool hasNextPage = false;
   int pageNumber = 0;
   int perPage = 20;
-  List<SalesPersonInfo> memberItemsList = [];
+  List<Data1> memberItemsList = [];
   StreamController _memberListController;
 
   StreamSink<ApiResponse<AllSalesPersonResponse>> get _memberListSink =>
@@ -51,12 +51,12 @@ class SalesPersonsBloc {
       }
       if (isPagination) {
         if (memberItemsList.length == 0) {
-          memberItemsList = response.itemList;
+          memberItemsList = response.data;
         } else {
-          memberItemsList.addAll(response.itemList);
+          memberItemsList.addAll(response.data);
         }
       } else {
-        memberItemsList = response.itemList;
+        memberItemsList = response.data;
       }
       _memberListSink.add(ApiResponse.completed(response));
       if (isPagination) {

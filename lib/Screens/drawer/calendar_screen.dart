@@ -49,7 +49,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     'December'
   ];
   List<int> _yearList = [];
-  SalesPersonInfo salesPersonReceived;
+  Data1 salesPersonReceived;
   MonthWiseReportBloc _monthWiseReportBloc;
 
   DateTime _currentDate;

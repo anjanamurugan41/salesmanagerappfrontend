@@ -538,13 +538,13 @@ class _ReportTaskDetailsScreenState extends State<ReportTaskDetailsScreen> {
 
     if (data != null && mounted) {
       if (data.containsKey("selectedPersonInfo")) {
-        SalesPersonInfo selectedPerson = data["selectedPersonInfo"];
+        Data1 selectedPerson = data["selectedPersonInfo"];
         changeSalesPersonOfTask(selectedPerson);
       }
     }
   }
 
-  void changeSalesPersonOfTask(SalesPersonInfo selectedPerson) {
+  void changeSalesPersonOfTask(Data1 selectedPerson) {
     var resBody = {};
     resBody["task"] = widget.taskId;
     resBody["salesman"] = selectedPerson.id;

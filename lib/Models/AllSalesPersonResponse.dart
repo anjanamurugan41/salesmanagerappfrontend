@@ -2,48 +2,45 @@ import 'Pagination.dart';
 
 class AllSalesPersonResponse {
   String message;
-  int status;
   bool success;
+  int status;
+  List<Data1> data;
   Pagination pagination;
-  List<SalesPersonInfo> itemList;
 
   AllSalesPersonResponse(
-      {this.message,
-      this.status,
-      this.success,
-      this.pagination,
-      this.itemList});
+      {this.message, this.success, this.status, this.data, this.pagination});
 
   AllSalesPersonResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    status = json['status'];
     success = json['success'];
+    status = json['status'];
+    if (json['data'] != null) {
+      data = new List<Data1>();
+      json['data'].forEach((v) {
+        data.add(new Data1.fromJson(v));
+      });
+    }
     pagination = json['pagination'] != null
         ? new Pagination.fromJson(json['pagination'])
         : null;
-    if (json['data'] != null) {
-      itemList = [];
-      json['data'].forEach((v) {
-        itemList.add(new SalesPersonInfo.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['message'] = this.message;
-    data['status'] = this.status;
     data['success'] = this.success;
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
     if (this.pagination != null) {
       data['pagination'] = this.pagination.toJson();
-    }
-    if (this.itemList != null) {
-      data['data'] = this.itemList.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
-class SalesPersonInfo {
+
+class Data1 {
   int id;
   String name;
   String email;
@@ -51,9 +48,9 @@ class SalesPersonInfo {
   int isActive;
   int createdBy;
   String role;
-  Null image;
+  String image;
 
-  SalesPersonInfo(
+  Data1(
       {this.id,
         this.name,
         this.email,
@@ -63,7 +60,7 @@ class SalesPersonInfo {
         this.role,
         this.image});
 
-  SalesPersonInfo.fromJson(Map<String, dynamic> json) {
+  Data1.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -84,6 +81,39 @@ class SalesPersonInfo {
     data['created_by'] = this.createdBy;
     data['role'] = this.role;
     data['image'] = this.image;
+    return data;
+  }
+}
+
+class Pagination {
+  int page;
+  int perPage;
+  int totalItem;
+  bool hasNextPage;
+  int totalPages;
+
+  Pagination(
+      {this.page,
+        this.perPage,
+        this.totalItem,
+        this.hasNextPage,
+        this.totalPages});
+
+  Pagination.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    perPage = json['perPage'];
+    totalItem = json['totalItem'];
+    hasNextPage = json['hasNextPage'];
+    totalPages = json['totalPages'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['page'] = this.page;
+    data['perPage'] = this.perPage;
+    data['totalItem'] = this.totalItem;
+    data['hasNextPage'] = this.hasNextPage;
+    data['totalPages'] = this.totalPages;
     return data;
   }
 }
@@ -176,21 +206,21 @@ class Data {
   }
 }
 
-class Pagination {
+class Pagination1 {
   int page;
   int perPage;
   int totalItem;
   bool hasNextPage;
   int totalPages;
 
-  Pagination(
+  Pagination1(
       {this.page,
         this.perPage,
         this.totalItem,
         this.hasNextPage,
         this.totalPages});
 
-  Pagination.fromJson(Map<String, dynamic> json) {
+  Pagination1.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     perPage = json['perPage'];
     totalItem = json['totalItem'];

@@ -62,6 +62,7 @@ class CommonInfoRepository {
   }
 
   Future<ProfileResponse> updateProfile(FormData formData) async {
+    print("formddat->${formData.fields}");
     final response = await apiProvider.getMultipartInstance().post(
         RemoteConfig.baseUrl + RemoteConfig.updateProfile,
         data: formData);

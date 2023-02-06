@@ -25,7 +25,7 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
   DateTime _dateTimeFrom = DateTime.now();
   DateTime _dateTimeTo = DateTime.now();
   String _status;
-  SalesPersonInfo salesPersonReceived;
+  Data1 salesPersonReceived;
 
   @override
   Widget build(BuildContext context) {

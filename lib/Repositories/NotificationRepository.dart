@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../Models/NotificationResponse.dart';
 import '../ServiceManager/ApiProvider.dart';
 import '../ServiceManager/RemoteConfig.dart';
-
+int notificationCount=0;
 class NotificationRepository {
   ApiProvider apiProvider;
 
@@ -22,6 +22,7 @@ class NotificationRepository {
 
 
     print("user_id->>>${response.data['UserName']}");
+    notificationCount=response.data['uCount'];
 
     return NotificationResponse.fromJson(response.data);
   }

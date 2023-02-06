@@ -41,7 +41,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   DateTime _dateTime = DateTime.now();
   DateTime _timeInfo = DateTime.now();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  SalesPersonInfo salesPersonReceived;
+  Data1 salesPersonReceived;
 
   TaskOperationsBloc _taskOperationsBloc;
   bool isTaskCreated = false;

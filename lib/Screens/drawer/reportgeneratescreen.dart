@@ -32,7 +32,7 @@ class ReportGenerateScreen extends StatefulWidget {
 class _ReportGenerateScreenState extends State<ReportGenerateScreen> {
   DateTime _dateTimeFrom = DateTime.now();
   DateTime _dateTimeTo = DateTime.now();
-  SalesPersonInfo salesPersonReceived;
+  Data1 salesPersonReceived;
   TaskOperationsBloc _taskOperationsBloc;
   File pdf;
 

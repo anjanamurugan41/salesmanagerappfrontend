@@ -48,7 +48,7 @@ class _RescheduleTaskState extends State<RescheduleTask> {
   DateTime _timeInfo = DateTime.now();
   DateTime _currentTime = DateTime.now();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  SalesPersonInfo salesPersonReceived;
+  Data1 salesPersonReceived;
   TaskOperationsBloc _taskOperationsBloc;
 
   @override

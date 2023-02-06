@@ -357,7 +357,7 @@ class _SalesPersonToPersonState extends State<SalesPersonToPerson>    with LoadM
     }
   }
 
-  getImage(SalesPersonInfo item) {
+  getImage(Data item) {
     String img = "";
     if (item.image != null) {
       if (item.image != "") {

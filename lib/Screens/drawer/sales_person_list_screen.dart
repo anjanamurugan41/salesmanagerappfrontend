@@ -45,7 +45,7 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
   SalesPersonsBloc _personsBloc;
   ScrollController _itemsController;
   int value;
-  SalesPersonInfo selectedPerson;
+  Data1 selectedPerson;
   TaskOperationsBloc _taskOperationsBloc;
 
   @override
@@ -255,7 +255,7 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
     return false;
   }
 
-  Widget _buildUserWidget(List<SalesPersonInfo> membersList) {
+  Widget _buildUserWidget(List<Data1> membersList) {
     if (membersList != null) {
       if (membersList.length > 0) {
         return ListView.builder(
@@ -294,7 +294,7 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
     }
   }
 
-  Widget _buildSalesPersonInfo(SalesPersonInfo salesPersonInfo) {
+  Widget _buildSalesPersonInfo(Data1 salesPersonInfo) {
     return AppCard(
       child: Padding(
         padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
@@ -387,7 +387,7 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
     );
   }
 
-  Widget _buildSalesPersonToSelect(int index, SalesPersonInfo salesPersonInfo) {
+  Widget _buildSalesPersonToSelect(int index, Data1 salesPersonInfo) {
     return AppCard(
       child: Container(
         color: Colors.transparent,
@@ -489,7 +489,7 @@ class _SalesPersonListScreenState extends State<SalesPersonListScreen>
     }
   }
 
-  getImage(SalesPersonInfo item) {
+  getImage(Data1 item) {
     String img = "";
     if (item.image != null) {
       if (item.image != "") {
